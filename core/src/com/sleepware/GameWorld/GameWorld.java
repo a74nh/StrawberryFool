@@ -117,14 +117,14 @@ public class GameWorld {
 			if(c!=Collides.NONE) {
 				scroller.stop();
 				bird.dying(c);
-				AssetLoader.dead.play();
+				AssetLoader.dead.play(AssetLoader.volume);
 				renderer.prepareTransition(255, 255, 255, .3f);
 	
-				AssetLoader.fall.play();
+				AssetLoader.fall.play(AssetLoader.volume);
 			}
 		} else if (bird.collidesSide(minX, maxX)) {
 			
-			AssetLoader.dead.play();
+			AssetLoader.dead.play(AssetLoader.volume);
 			renderer.prepareTransition(255, 255, 255, .3f);
 
 			scroller.stop();

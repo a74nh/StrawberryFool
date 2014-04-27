@@ -110,6 +110,30 @@ public class ButtonHandler {
 		});
 				
 		buttonY+= 25 + 5;
+		addButton("FX OFF", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
+			@Override
+			public void onClick(SimpleButton button, GameWorld world) {
+				if(AssetLoader.getSound()) {
+					AssetLoader.setSound(false);
+					button.setTitle("FX ON");
+				} else {
+					AssetLoader.setSound(true);
+					button.setTitle("FX OFF");
+				}
+			}
+
+			@Override
+			public void onStateChange(SimpleButton button) {
+				if(AssetLoader.getSound()) {
+					button.setTitle("FX OFF");
+				} else {
+					button.setTitle("FX ON");
+				}
+			}
+		});
+		
+		
+		buttonY+= 25 + 5;
 		addButton("BACK", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {

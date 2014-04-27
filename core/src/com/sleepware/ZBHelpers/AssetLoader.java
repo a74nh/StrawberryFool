@@ -28,6 +28,8 @@ public class AssetLoader {
 	public static BitmapFont font, shadow, whiteFont;
 	private static Preferences prefs;
 
+	public static float volume;
+
 	private static void loadFruit(int index, String fruitname) {
 				
 		fruitTexture[index]=new Texture(Gdx.files.internal(fruitname+"small.png"));
@@ -38,14 +40,7 @@ public class AssetLoader {
 		//blurredFruitTexture[index].setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		//blurredFruit[index] = new TextureRegion(blurredFruitTexture[index], 0, 0, 32, 32);
 	}
-	
-	private static void loadButton(int x, int y) {
-						
-		buttons[0] = new TextureRegion(buttonsTexture, x*200, y*100, 100, 50);
-		buttons[1] = new TextureRegion(buttonsTexture, (x*200), (y*100)+50, 100, 50);
-		buttons[0].flip(false, true);
-		buttons[1].flip(false, true);
-	}
+
 	
 	public static void load() {
 
@@ -159,12 +154,12 @@ public class AssetLoader {
 	
 		buttons = new TextureRegion[2];
 
-		buttonsTexture = new Texture(Gdx.files.internal("buttons.png"));
+		buttonsTexture = new Texture(Gdx.files.internal("clearbuttons.png"));
 
-		loadButton(0, 0);
-		//loadButton(ButtonType.CONTINUE, 0, 1);
-		//loadButton(ButtonType.START, 0, 2);
-		//loadButton(ButtonType.OPTIONS, 0, 3);
+		buttons[0] = new TextureRegion(buttonsTexture, 0, 0, 150, 50);
+		buttons[1] = new TextureRegion(buttonsTexture, 0, 50, 150, 50);
+		buttons[0].flip(false, true);
+		buttons[1].flip(false, true);
 		
 			
 		fingerTexture = new Texture(Gdx.files.internal("finger.png"));
@@ -194,7 +189,6 @@ public class AssetLoader {
 		yoghurt = new TextureRegion(yoghurtTexture, 0, 0, 408, 272);
 		yoghurt.flip(false, true);		
 		
-
 		dead = Gdx.audio.newSound(Gdx.files.internal("dead.wav"));
 		flap = Gdx.audio.newSound(Gdx.files.internal("flap.wav"));
 		coin = Gdx.audio.newSound(Gdx.files.internal("coin.wav"));
@@ -210,11 +204,18 @@ public class AssetLoader {
 		shadow.setScale(.25f, -.25f);
 
 		// Create (or retrieve existing) preferences file
-		prefs = Gdx.app.getPreferences("ZombieBird");
+		prefs = Gdx.app.getPreferences("StrawberryFool");
 
 		if (!prefs.contains("highScore")) {
 			prefs.putInteger("highScore", 0);
 		}
+		if (!prefs.contains("highLevel")) {
+			prefs.putInteger("highLevel", 0);
+		}
+		if (!prefs.contains("sound")) {
+			prefs.putBoolean("sound", true);
+		}
+		if(getSound()) volume=1; else volume=0;
 	}
 
 	public static void setHighScore(int val) {
@@ -233,6 +234,16 @@ public class AssetLoader {
 
 	public static int getHighLevel() {
 		return prefs.getInteger("highLevel");
+	}
+	
+	public static void setSound(boolean val) {
+		prefs.putBoolean("sound", val);
+		prefs.flush();
+		if(val) volume=1; else volume=0;
+	}
+
+	public static boolean getSound() {
+		return prefs.getBoolean("sound");
 	}
 	
 	public static void dispose() {

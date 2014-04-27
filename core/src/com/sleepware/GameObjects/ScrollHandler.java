@@ -208,7 +208,7 @@ public class ScrollHandler {
 					&& p.getY() + (p.getHeight() / 2) < bird.getY() + bird.getDiameter()) {
 				addScore(1);
 				p.setScored(true);
-				AssetLoader.coin.play();
+				AssetLoader.coin.play(AssetLoader.volume);
 				if(p.getIsBar()) {
 					//Once passed the bar, it's safe to move to next level
 					gameWorld.nextLevel();
