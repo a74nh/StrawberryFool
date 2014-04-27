@@ -32,8 +32,9 @@ public class Bird {
 	private final int diameter;
 	private final int maxMovement;
 
-	private float originalX;
-
+	final private float originalX;
+	final private int offsetY;
+	
 	private boolean isAlive;
 
 	private Circle boundingCircle;
@@ -49,18 +50,17 @@ public class Bird {
 	
 	private Random r;
 
-	//private Collides collision;
-
 	private int deathVelocity;
 
 	private int fruitValue;
 	
-	public Bird(GameWorld gameWorld, float x, int diameter, int maxMovement) {
+	public Bird(GameWorld gameWorld, int x, int gameHeight, int diameter, int maxMovement) {
 		//this.gameWorld = gameWorld;
 		level = gameWorld.getLevel();
 		this.diameter = diameter;
 		this.maxMovement=maxMovement;
 		originalX = x - (diameter/2);
+		offsetY = (gameHeight/2) - 200;
 		
 		position = new Vector2(originalX,0);
 		velocity = new Vector2(0, 0);
@@ -76,10 +76,6 @@ public class Bird {
 	public void move(float delta) {
 		
 		switch(birdMotion) {
-		
-		case NONE:
-			//rotation=0;
-			break;
 			
 		case LINEAR:
 			position.add(velocity.cpy().scl(delta));
@@ -97,21 +93,12 @@ public class Bird {
 			break;
 			
 		case SINE:
-			
 			float movementFromX = + ((float)Math.sin(velocity.x*runTime/50) * maxMovement);
 
 			position.x= originalX + movementFromX;
 
+			rotation -= (( position.x - previousX)*3);
 			
-			//if(movementFromX>previousX) {
-				//moving right
-				rotation -= (( position.x - previousX)*3);
-				//rotation = 80;
-			//} else {
-			//	rotation -= (( previousX - movementFromX )*.1);
-			//}
-			
-
 			break;
 		
 		case DYING:
@@ -123,12 +110,11 @@ public class Bird {
 			}
 
 			break;
-			
-		case DEAD:
-			//Do nothing
-			break;
 
+		case NONE:
+		case DEAD:
 		default:
+			//Do nothing
 			break;
 
 		}
@@ -151,11 +137,9 @@ public class Bird {
 		}
 		    			
 		switch(levelState) {
-		//case NORMAL:
+
 		case FINISHING_LEVEL:
 			
-			//remainingLevel -= Math.abs(position.x-previousX);
-
 			if((previousX<originalX && position.x>=originalX)
 				||  (previousX>originalX && position.x<=originalX)	) {
 				//We moved to our new position
@@ -163,10 +147,8 @@ public class Bird {
 				remainingSpin = r.nextInt(360) + 360;
 			}
 			
-			//rotation -= 480 * delta;
-
-			
 			break;
+			
 		case SPIN:
 			final float newrotation =  480 * delta;
 			
@@ -181,6 +163,7 @@ public class Bird {
 				setLevelAttributes();
 			}
 			break;
+			
 		default:
 			break;
 		
@@ -199,7 +182,7 @@ public class Bird {
 
 	private void setLevelAttributes() {
 		birdMotion =  level.getBirdMotion();
-		position.y = level.getBirdYPosition();
+		position.y = offsetY + level.getBirdYPosition();
 		velocity.x = level.getBirdSpeed();
 		deathVelocity = level.getDeathVelocity();
 	}
@@ -230,7 +213,6 @@ public class Bird {
 		isAlive = true;
 		runTime=0;
 		levelState=LevelState.NORMAL;
-		//remainingLevel = 0;
 		boundingCircle.set(position.x + (diameter/2), position.y +  (diameter/2),  (diameter/2));
 
 		levelState=LevelState.SPIN;
@@ -268,7 +250,6 @@ public class Bird {
 		if(birdMotion==BirdMotion.NONE) {
 			levelState=LevelState.SPIN;
 		}
-	//	remainingLevel = originalX; //r.nextInt(maxMovement) + maxMovement;
 	}
 	
 	public void draw(SpriteBatch batcher, TextureRegion[] fruit) {

@@ -60,7 +60,7 @@ public class GameLevel {
 	}
 	
 	public int getBirdYPosition() {
-		return 10 + (5*level);
+		return (5*level);
 	}
 	
 	public float getBirdSpeed() {

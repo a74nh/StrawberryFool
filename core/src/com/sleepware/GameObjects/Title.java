@@ -8,16 +8,20 @@ import com.sleepware.ZBHelpers.AssetLoader;
 public class Title {
 
 	private int gameWidth;
+	private int gameHeight;
 	private Spoon spoon;
 	private StaticImage finger;
 	private boolean fingerDisplayed;
 
-	final private int titleY = 80;
+	final private int titleY;
 	
-	public Title(int grassLeftStart, int grassRightStart, int gameWidth, int spoonSize, int spoonHeadWidth, int spoonHeadHeight) {
+	public Title(int grassLeftStart, int grassRightStart, int gameWidth, int gameHeight, int spoonSize, int spoonHeadWidth, int spoonHeadHeight) {
 		this.gameWidth=gameWidth;
+		this.gameHeight=gameHeight;
 		
-		final int spoonY = 150;
+		final int spoonY = (gameHeight/2) - 50;
+		
+		titleY = (gameHeight/2) - 130;
 		
 		spoon = new Spoon(spoonY, spoonSize, spoonHeadWidth, spoonHeadHeight, grassLeftStart, grassRightStart, 1);
 		spoon.setLevelAttributes(0, 100, 0);

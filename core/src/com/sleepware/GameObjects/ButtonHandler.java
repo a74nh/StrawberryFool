@@ -24,7 +24,7 @@ public class ButtonHandler {
 		
 		menuButtons = new ArrayList<SimpleButton>();
 		
-		final int topButton = 200;
+		final int topButton = gameHeight/2;
 		
 		
 		/**************************************************************************/
@@ -174,7 +174,76 @@ public class ButtonHandler {
 			}
 		});		
 		
-	
+
+		/**************************************************************************/
+		/* GAMEOVER */
+		/*************************************************************************/
+				
+		buttonY = (gameHeight/10)*4;
+		addButton("GAME OVER", (gameWidth / 2), buttonY, GameState.GAMEOVER, new ActionFunction() {
+			@Override
+			public void onClick(SimpleButton button, GameWorld world) {
+			}
+
+			@Override
+			public void onStateChange(SimpleButton button) {
+			}
+		});
+		
+		buttonY+= (25 + 5)*3;
+		addButton("RETRY?", (gameWidth / 2), buttonY, GameState.GAMEOVER, new ActionFunction() {
+			@Override
+			public void onClick(SimpleButton button, GameWorld world) {
+			}
+
+			@Override
+			public void onStateChange(SimpleButton button) {
+			}
+		});
+		
+		
+
+		/**************************************************************************/
+		/* HIGHSCORE */
+		/*************************************************************************/
+				
+		buttonY = (gameHeight/10)*4;
+		addButton("HIGHSCORE!", (gameWidth / 2), buttonY, GameState.HIGHSCORE, new ActionFunction() {
+			@Override
+			public void onClick(SimpleButton button, GameWorld world) {
+			}
+
+			@Override
+			public void onStateChange(SimpleButton button) {
+			}
+		});
+		
+		buttonY+= (25 + 5)*3;
+		addButton("RETRY?", (gameWidth / 2), buttonY, GameState.HIGHSCORE, new ActionFunction() {
+			@Override
+			public void onClick(SimpleButton button, GameWorld world) {
+			}
+
+			@Override
+			public void onStateChange(SimpleButton button) {
+			}
+		});
+		
+		/**************************************************************************/
+		/* READY */
+		/*************************************************************************/
+				
+		buttonY = (gameHeight/10)*4;
+		addButton("READY...", (gameWidth / 2), buttonY, GameState.READY, new ActionFunction() {
+			@Override
+			public void onClick(SimpleButton button, GameWorld world) {
+			}
+
+			@Override
+			public void onStateChange(SimpleButton button) {
+			}
+		});
+		
 	}
 		
 

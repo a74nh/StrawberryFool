@@ -48,7 +48,9 @@ public class GameWorld {
 		this.minX = minX;
 		this.maxX = maxX;
 		
-		int groundStart = 400;
+		final int halfheight = gameHeight/2;
+		
+		int groundStart = halfheight + 200;
 		
 		//Bird starts halfway between the grasses
 		birdMidpoint = ( (minX-maxX) / 2 ) + maxX;
@@ -67,12 +69,12 @@ public class GameWorld {
 		
 		level = new GameLevel(this,gameWidth);
 
-		bird = new Bird(this, birdMidpoint, birdDiameter, maxBirdMovement);	
+		bird = new Bird(this, birdMidpoint, gameHeight, birdDiameter, maxBirdMovement);	
 		scroller = new ScrollHandler(this, minX, maxX, gameWidth, groundStart, grassSize, spoonSize, spoonHandleWidth, spoonHandleHeight, fallingFruitDiameter);
 		background = new StaticImage(minX,0,maxX,groundStart);
 		yoghurt = new Yoghurt(0,groundStart,gameWidth,gameHeight-groundStart, staticFruitDiameter, minX, maxX);
 		hud = new Hud(this, groundStart, minX, maxX, AssetLoader.font, AssetLoader.shadow);
-		title = new Title(minX, maxX, gameWidth, spoonSize, spoonHandleWidth, spoonHandleHeight);
+		title = new Title(minX, maxX, gameWidth, gameHeight, spoonSize, spoonHandleWidth, spoonHandleHeight);
 		buttonhandler = new ButtonHandler(this, gameWidth, gameHeight);
 	}
 

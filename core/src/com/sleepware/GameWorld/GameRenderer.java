@@ -133,59 +133,43 @@ public class GameRenderer {
 
 	private void drawStar(int requiredScore, int x) {
 
+		final int y = (gameHeight/10)*4 + 50;
+
 		if(myWorld.getScore()>requiredScore) {
-			batcher.draw(fruit[bird.getFruitValue()], x, midPointY - 15, 10, 10);
+			batcher.draw(fruit[bird.getFruitValue()], x, y, 10, 10);
 		} else {
-			batcher.draw(noStar, x, midPointY - 15, 10, 10);
+			batcher.draw(noStar, x, y, 10, 10);
 		}
 
 	}
 	
 	private void drawScoreboard() {
 		
- 		batcher.draw(scoreboard, 22, midPointY - 30, 97, 37);
+		final int y = (gameHeight/10)*4;
+		final int x = midPointX-(97/2);
+		
+ 		batcher.draw(scoreboard, x, y + 30, 97, 37);
 
- 		drawStar( 2, 25);
- 		drawStar(17, 37);
- 		drawStar(50, 49);
- 		drawStar(80, 61);
- 		drawStar(120,73);
+ 		drawStar(2, x+4);
+ 		drawStar(17, x+16);
+ 		drawStar(50, x+28);
+ 		drawStar(80, x+40);
+ 		drawStar(120,x+52);
 
 		int length = ("" + myWorld.getScore()).length();
 
 		AssetLoader.whiteFont.draw(batcher, "" + myWorld.getScore(),
-				midPointX - (2 * length),
-				midPointY - 20);
+				x+72 ,
+				y + 40);
 
 		int length2 = ("" + AssetLoader.getHighScore()).length();
+		
 		AssetLoader.whiteFont.draw(batcher, "" + AssetLoader.getHighScore(),
-				midPointX - (2.5f * length2),
-				midPointY - 3);
+				x+72,
+				y + 55);
 
 	}
 
-	private void drawRetry() {
-		batcher.draw(retry, midPointX, midPointY + 10, 66, 14);
-	}
-
-	private void drawReady() {
-		batcher.draw(ready, midPointX, midPointY - 50, 68, 14);
-	}
-
-	private void drawGameOver() {
-		batcher.draw(gameOver, midPointX, midPointY - 50, 92, 14);
-	}
-
-	
-
-	
-	
-	
-
-
-	private void drawHighScore() {
-		batcher.draw(highScore, 22, midPointY - 50, 96, 14);
-	}
 
 	public void render(float delta, float runTime) {
 
@@ -220,7 +204,7 @@ public class GameRenderer {
 			break;
 			
 		case READY:
-			drawReady();
+			buttonhandler.draw(batcher);
 			break;
 		
 		case PAUSED:
@@ -229,15 +213,13 @@ public class GameRenderer {
 			break;
 		
 		case GAMEOVER:
+			buttonhandler.draw(batcher);
 			drawScoreboard();
-			drawGameOver();
-			drawRetry();
 			break;
 			
 		case HIGHSCORE:
+			buttonhandler.draw(batcher);
 			drawScoreboard();
-			drawHighScore();
-			drawRetry();
 			break;
 			
 		default:

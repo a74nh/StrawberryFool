@@ -2,7 +2,6 @@ package com.sleepware.strawberryfool.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.sleepware.HelperBee.HBGame;
 import com.sleepware.strawberryfool.StrawberryFool;
 
 public class DesktopLauncher {
