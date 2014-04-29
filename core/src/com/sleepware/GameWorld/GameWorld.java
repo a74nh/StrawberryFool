@@ -2,6 +2,7 @@ package com.sleepware.GameWorld;
 
 import com.sleepware.GameObjects.Bird;
 import com.sleepware.GameObjects.ButtonHandler;
+import com.sleepware.GameObjects.ScoreBoard;
 import com.sleepware.GameObjects.Spoon.Collides;
 import com.sleepware.GameObjects.Hud;
 import com.sleepware.GameObjects.StaticImage;
@@ -29,13 +30,15 @@ public class GameWorld {
 	private StaticImage background;
 	private Yoghurt yoghurt;
 	private ButtonHandler buttonhandler;
-
+	private Hud hud;
+	private Title title;
+	private ScoreBoard scoreBoard;
+	
 	private GameLevel level;
 
 	private final int minX;
 	private final int maxX;
-	private Hud hud;
-	private Title title;
+
 
 	
 	public GameWorld(int gameWidth, int gameHeight, int minX, int maxX) {
@@ -76,37 +79,40 @@ public class GameWorld {
 		hud = new Hud(this, groundStart, minX, maxX, AssetLoader.font, AssetLoader.shadow);
 		title = new Title(minX, maxX, gameWidth, gameHeight, spoonSize, spoonHandleWidth, spoonHandleHeight);
 		buttonhandler = new ButtonHandler(this, gameWidth, gameHeight);
+		scoreBoard = new ScoreBoard(this, minX, maxX, gameWidth, gameHeight, fallingFruitDiameter);
 	}
 
 	public void update(float delta) {
 		runTime += delta;
 
 		switch (currentState) {
-		case READY:
 		case MENU:
+			title.update(delta);
+			//fall through...
+			
+		case READY:
 		case OPTIONS:
-			updateReady(delta);
+			bird.updateReady(runTime);
+			scroller.updateReady(delta);
 			break;
 
 		case RUNNING:
 			updateRunning(delta);
 			break;
+			
+		case GAMEOVER:
+		case HIGHSCORE:
+			scoreBoard.update(delta);
+			break;
+
 		default:
 			break;
 		}
 
 	}
 
-	private void updateReady(float delta) {
-		bird.updateReady(runTime);
-		scroller.updateReady(delta);
-		
-		if(currentState==GameState.MENU) {
-			title.update(delta);
-		}
-	}
 
-	public void updateRunning(float delta) {
+	private void updateRunning(float delta) {
 		if (delta > .15f) {
 			delta = .15f;
 		}
@@ -132,6 +138,20 @@ public class GameWorld {
 			scroller.stop();
 			bird.dead();
 
+			int starScore=0;
+			if(score>=120) {
+				starScore=5;
+			} else if (score>=80) {
+				starScore=4;
+			} else if (score>=50) {
+				starScore=3;
+			} else if (score>=17) {
+				starScore=2;
+			} else if (score>=2) {
+				starScore=1;
+			}
+			scoreBoard.onRestart(starScore, score > AssetLoader.getHighScore());
+			
 			if (score > AssetLoader.getHighScore()) {
 				AssetLoader.setHighScore(score);
 				setState(GameState.HIGHSCORE);
@@ -165,6 +185,10 @@ public class GameWorld {
 	
 	public Yoghurt getYoghurt() {
 		return yoghurt;
+	}
+	
+	public ScoreBoard getScoreBoard() {
+		return scoreBoard;
 	}
 	
 	public int getScore() {

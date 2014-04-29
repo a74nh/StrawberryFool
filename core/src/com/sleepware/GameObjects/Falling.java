@@ -10,10 +10,10 @@ import com.sleepware.ZBHelpers.AssetLoader;
 public class Falling extends RotatingScrollable {
 
 
-	private int gameHeight;
+	final private int gameHeight;
 	private Random r;
-	private int minX;
-	private int maxX;
+	final private int minX;
+	final private int maxX;
 	private int baseYVelocity;
 	private int fruitId;
 

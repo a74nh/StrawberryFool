@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.sleepware.GameObjects.Bird;
 import com.sleepware.GameObjects.ButtonHandler;
 import com.sleepware.GameObjects.Hud;
+import com.sleepware.GameObjects.ScoreBoard;
 import com.sleepware.GameObjects.ScrollHandler;
 import com.sleepware.GameObjects.StaticImage;
 import com.sleepware.GameObjects.Title;
@@ -53,10 +54,11 @@ public class GameRenderer {
 	private Hud hud;
 	private Title title;
 	private ButtonHandler buttonhandler;
+	private ScoreBoard scoreBoard;
 
 	// Game Assets
-	private TextureRegion bg, grassTex, skullUp, skullDown, bar, ready,
-			zbLogo, gameOver, highScore, scoreboard, noStar, retry, forkup, forkdown, yoghurtImage, finger;
+	private TextureRegion bg, grassTex, skullUp, skullDown, bar,
+			zbLogo, noStar, forkup, forkdown, yoghurtImage, finger;
 	private TextureRegion[] fruit;
 
 	// Tween stuff
@@ -108,6 +110,7 @@ public class GameRenderer {
 		hud = myWorld.getHud();
 		title = myWorld.getTitle();
 		buttonhandler = myWorld.getButtonhandler();
+		scoreBoard = myWorld.getScoreBoard();
 	}
 
 	private void initAssets() {
@@ -116,12 +119,7 @@ public class GameRenderer {
 		skullUp = AssetLoader.skullUp;
 		skullDown = AssetLoader.skullDown;
 		bar = AssetLoader.bar;
-		ready = AssetLoader.ready;
 		zbLogo = AssetLoader.zbLogo;
-		gameOver = AssetLoader.gameOver;
-		highScore = AssetLoader.highScore;
-		scoreboard = AssetLoader.scoreboard;
-		retry = AssetLoader.retry;
 		noStar = AssetLoader.noStar;
 		forkup = AssetLoader.forkup;
 		forkdown = AssetLoader.forkdown;
@@ -130,45 +128,6 @@ public class GameRenderer {
 		finger = AssetLoader.finger;
 	}
 
-
-	private void drawStar(int requiredScore, int x) {
-
-		final int y = (gameHeight/10)*4 + 50;
-
-		if(myWorld.getScore()>requiredScore) {
-			batcher.draw(fruit[bird.getFruitValue()], x, y, 10, 10);
-		} else {
-			batcher.draw(noStar, x, y, 10, 10);
-		}
-
-	}
-	
-	private void drawScoreboard() {
-		
-		final int y = (gameHeight/10)*4;
-		final int x = midPointX-(97/2);
-		
- 		batcher.draw(scoreboard, x, y + 30, 97, 37);
-
- 		drawStar(2, x+4);
- 		drawStar(17, x+16);
- 		drawStar(50, x+28);
- 		drawStar(80, x+40);
- 		drawStar(120,x+52);
-
-		int length = ("" + myWorld.getScore()).length();
-
-		AssetLoader.whiteFont.draw(batcher, "" + myWorld.getScore(),
-				x+72 ,
-				y + 40);
-
-		int length2 = ("" + AssetLoader.getHighScore()).length();
-		
-		AssetLoader.whiteFont.draw(batcher, "" + AssetLoader.getHighScore(),
-				x+72,
-				y + 55);
-
-	}
 
 
 	public void render(float delta, float runTime) {
@@ -213,13 +172,9 @@ public class GameRenderer {
 			break;
 		
 		case GAMEOVER:
-			buttonhandler.draw(batcher);
-			drawScoreboard();
-			break;
-			
 		case HIGHSCORE:
 			buttonhandler.draw(batcher);
-			drawScoreboard();
+			scoreBoard.draw(batcher, fruit, noStar);
 			break;
 			
 		default:

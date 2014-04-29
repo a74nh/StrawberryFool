@@ -9,7 +9,7 @@ import com.sleepware.ZBHelpers.AssetLoader;
 
 public class SimpleButton {
 
-	private int x, y, width, height;
+	final private int x, y, width, height;
 
 	private TextureRegion buttonUp;
 	private TextureRegion buttonDown;
@@ -24,6 +24,8 @@ public class SimpleButton {
 
 	private String title;
 
+	final private boolean clickable;
+
 	public interface ActionFunction {
 	    void onClick(SimpleButton button, GameWorld world);
 	    void onStateChange(SimpleButton button);
@@ -31,7 +33,7 @@ public class SimpleButton {
 	
 	
 	public SimpleButton(int x, int y, int width, int height,
-			TextureRegion buttonUp, TextureRegion buttonDown, ActionFunction actionFunction, GameState gamestate, String title) {
+			TextureRegion buttonUp, TextureRegion buttonDown, ActionFunction actionFunction, GameState gamestate, String title, boolean clickable) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -41,13 +43,13 @@ public class SimpleButton {
 		this.actionFunction=actionFunction;
 		this.gamestate=gamestate;
 		this.title=title;
+		this.clickable=clickable;
 
 		bounds = new Rectangle(x, y, width, height);
-
 	}
 
 	public boolean isClicked(int screenX, int screenY) {
-		return bounds.contains(screenX, screenY);
+		return (!clickable || bounds.contains(screenX, screenY));
 	}
 
 	
@@ -59,9 +61,11 @@ public class SimpleButton {
 	
 	public void draw(SpriteBatch batcher) {
 		if (isPressed) {
-			batcher.draw(buttonDown, x, y, width, height);
+			if(buttonDown!=null)
+				batcher.draw(buttonDown, x, y, width, height);
 		} else {
-			batcher.draw(buttonUp, x, y, width, height);
+			if(buttonUp!=null)
+				batcher.draw(buttonUp, x, y, width, height);
 		}
 		drawText(batcher,title,x+5,y+5);
 	}
@@ -92,11 +96,13 @@ public class SimpleButton {
 
 	
 	public void doAction(GameWorld world) {
-		actionFunction.onClick(this, world);
+		if(actionFunction!=null)
+			actionFunction.onClick(this, world);
 	}
 	
 	public void onStateChange() {
-		actionFunction.onStateChange(this);
+		if(actionFunction!=null)
+			actionFunction.onStateChange(this);
 	}
 	
 	

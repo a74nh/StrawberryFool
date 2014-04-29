@@ -16,7 +16,7 @@ public class AssetLoader {
 	private static Texture texture, logoTexture, ball1Texture, starsTexture, spoonTexture, forkTexture, stripeTexture, yoghurtTexture, fingerTexture;
 	public static TextureRegion logo, zbLogo, bg, grass, bird, birdDown,
 			birdUp, skullUp, skullDown, bar, playButtonUp, playButtonDown,
-			ready, gameOver, highScore, scoreboard, star, noStar, retry, ball1, ball2, ball3, stars, forkup, forkdown, yoghurt, finger;
+			star, noStar, ball1, ball2, ball3, stars, forkup, forkdown, yoghurt, finger;
 	public static Texture[] fruitTexture; //, blurredFruitTexture;
 	public static TextureRegion[] fruit; //, blurredFruit;
 
@@ -57,26 +57,11 @@ public class AssetLoader {
 		playButtonUp.flip(false, true);
 		playButtonDown.flip(false, true);
 
-		ready = new TextureRegion(texture, 59, 83, 34, 7);
-		ready.flip(false, true);
-
-		retry = new TextureRegion(texture, 59, 110, 33, 7);
-		retry.flip(false, true);
-		
-		gameOver = new TextureRegion(texture, 59, 92, 46, 7);
-		gameOver.flip(false, true);
-
-		scoreboard = new TextureRegion(texture, 111, 83, 97, 37);
-		scoreboard.flip(false, true);
-
 		star = new TextureRegion(texture, 152, 70, 10, 10);
 		noStar = new TextureRegion(texture, 165, 70, 10, 10);
 
 		star.flip(false, true);
 		noStar.flip(false, true);
-
-		highScore = new TextureRegion(texture, 59, 101, 48, 7);
-		highScore.flip(false, true);
 
 		zbLogo = new TextureRegion(texture, 0, 55, 135, 24);
 		zbLogo.flip(false, true);

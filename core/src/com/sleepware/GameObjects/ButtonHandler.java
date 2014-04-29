@@ -110,24 +110,37 @@ public class ButtonHandler {
 		});
 				
 		buttonY+= 25 + 5;
-		addButton("FX OFF", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
+		addButton("SOUND", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
 				if(AssetLoader.getSound()) {
 					AssetLoader.setSound(false);
-					button.setTitle("FX ON");
 				} else {
 					AssetLoader.setSound(true);
-					button.setTitle("FX OFF");
 				}
+				world.getButtonhandler().onStateChange();
+			}
+
+			@Override
+			public void onStateChange(SimpleButton button) {
+			}
+		});
+
+		
+		addLabel("ON", (gameWidth / 2) + 80, buttonY, GameState.OPTIONS, new ActionFunction() {
+			String on="ON";
+			String off="OFF";
+			
+			@Override
+			public void onClick(SimpleButton button, GameWorld world) {
 			}
 
 			@Override
 			public void onStateChange(SimpleButton button) {
 				if(AssetLoader.getSound()) {
-					button.setTitle("FX OFF");
+					button.setTitle(on);
 				} else {
-					button.setTitle("FX ON");
+					button.setTitle(off);
 				}
 			}
 		});
@@ -178,75 +191,55 @@ public class ButtonHandler {
 		/**************************************************************************/
 		/* GAMEOVER */
 		/*************************************************************************/
-				
+	/*			
 		buttonY = (gameHeight/10)*4;
-		addButton("GAME OVER", (gameWidth / 2), buttonY, GameState.GAMEOVER, new ActionFunction() {
-			@Override
-			public void onClick(SimpleButton button, GameWorld world) {
-			}
-
-			@Override
-			public void onStateChange(SimpleButton button) {
-			}
-		});
+		addLabel("GAME OVER", (gameWidth / 2), buttonY, GameState.GAMEOVER, null);
 		
 		buttonY+= (25 + 5)*3;
-		addButton("RETRY?", (gameWidth / 2), buttonY, GameState.GAMEOVER, new ActionFunction() {
-			@Override
-			public void onClick(SimpleButton button, GameWorld world) {
-			}
-
-			@Override
-			public void onStateChange(SimpleButton button) {
-			}
-		});
-		
-		
+		addLabel("RETRY?", (gameWidth / 2), buttonY, GameState.GAMEOVER, null);
+		*/
 
 		/**************************************************************************/
 		/* HIGHSCORE */
 		/*************************************************************************/
-				
+/*				
 		buttonY = (gameHeight/10)*4;
-		addButton("HIGHSCORE!", (gameWidth / 2), buttonY, GameState.HIGHSCORE, new ActionFunction() {
-			@Override
-			public void onClick(SimpleButton button, GameWorld world) {
-			}
-
-			@Override
-			public void onStateChange(SimpleButton button) {
-			}
-		});
+		addLabel("NEW HIGHSCORE!", (gameWidth / 2), buttonY, GameState.HIGHSCORE, null);
 		
 		buttonY+= (25 + 5)*3;
-		addButton("RETRY?", (gameWidth / 2), buttonY, GameState.HIGHSCORE, new ActionFunction() {
-			@Override
-			public void onClick(SimpleButton button, GameWorld world) {
-			}
-
-			@Override
-			public void onStateChange(SimpleButton button) {
-			}
-		});
+		addLabel("RETRY?", (gameWidth / 2), buttonY, GameState.HIGHSCORE, null);
+	*/	
 		
 		/**************************************************************************/
 		/* READY */
 		/*************************************************************************/
 				
 		buttonY = (gameHeight/10)*4;
-		addButton("READY...", (gameWidth / 2), buttonY, GameState.READY, new ActionFunction() {
-			@Override
-			public void onClick(SimpleButton button, GameWorld world) {
-			}
-
-			@Override
-			public void onStateChange(SimpleButton button) {
-			}
-		});
+		addLabel("READY...", (gameWidth / 2), buttonY, GameState.READY, null);
 		
 	}
 		
-
+	
+	
+	private void addLabel(String title, int x, int y, GameState gamestate, ActionFunction action) {
+		
+		final int width = 75;
+		
+		SimpleButton button = new SimpleButton(
+				x - (width/2),
+				y,
+				width,
+				25, 
+				null,
+				null,
+				action,
+				gamestate,
+				title,
+				false);
+		
+		menuButtons.add(button);
+	}
+	
 	private void addButton(String title, int x, int y, GameState gamestate, ActionFunction action) {
 		
 		final int width = 75;
@@ -260,7 +253,8 @@ public class ButtonHandler {
 				AssetLoader.buttons[1],
 				action,
 				gamestate,
-				title);
+				title,
+				true);
 		
 		menuButtons.add(button);
 	}

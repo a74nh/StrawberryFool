@@ -13,16 +13,16 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.sleepware.TweenAccessors.SpriteAccessor;
 import com.sleepware.ZBHelpers.AssetLoader;
-import com.sleepware.HelperBee.HBGame;
+import com.sleepware.strawberryfool.StrawberryFool;
 
 public class SplashScreen implements Screen {
 
 	private TweenManager manager;
 	private SpriteBatch batcher;
 	private Sprite sprite;
-	private HBGame game;
+	private StrawberryFool game;
 
-	public SplashScreen(HBGame game) {
+	public SplashScreen(StrawberryFool game) {
 		this.game = game;
 	}
 

@@ -35,8 +35,8 @@ public class ScrollHandler {
 	public ScrollHandler(GameWorld gameWorld, 
 			int grassLeftStart, 
 			int grassRightStart, 
-			float gameWidth, 
-			float gameHeight, //Actually this is where the ground starts
+			int gameWidth, 
+			int gameHeight, //Actually this is where the ground starts
 			int grassSize,
 			int spoonSize,
 			int headWidth,
