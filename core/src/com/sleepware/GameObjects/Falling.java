@@ -69,8 +69,8 @@ public class Falling extends RotatingScrollable {
 		super.onRestart((-r.nextInt(gameHeight)) - height);
 	}
 	
-	public void draw(SpriteBatch batcher, TextureRegion[] texture) {	
-		super.draw(batcher,texture[fruitId]);
+	public void draw(SpriteBatch batcher, Fruit[] fruit) {	
+		super.draw(batcher,fruit[fruitId].getImage());
 	}
 
 }

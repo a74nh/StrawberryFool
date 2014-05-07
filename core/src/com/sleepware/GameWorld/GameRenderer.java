@@ -10,24 +10,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.sleepware.GameObjects.Bird;
 import com.sleepware.GameObjects.ButtonHandler;
+import com.sleepware.GameObjects.Fruit;
 import com.sleepware.GameObjects.Hud;
 import com.sleepware.GameObjects.ScoreBoard;
 import com.sleepware.GameObjects.ScrollHandler;
 import com.sleepware.GameObjects.StaticImage;
 import com.sleepware.GameObjects.Title;
 import com.sleepware.GameObjects.Yoghurt;
-import com.sleepware.GameWorld.GameWorld.GameState;
 import com.sleepware.TweenAccessors.Value;
 import com.sleepware.TweenAccessors.ValueAccessor;
 import com.sleepware.ZBHelpers.AssetLoader;
-import com.sleepware.ZBHelpers.InputHandler;
-import com.sleepware.ui.SimpleButton;
+
 
 public class GameRenderer {
 	
@@ -58,8 +58,9 @@ public class GameRenderer {
 
 	// Game Assets
 	private TextureRegion bg, grassTex, skullUp, skullDown, bar,
-			zbLogo, noStar, forkup, forkdown, yoghurtImage, finger;
-	private TextureRegion[] fruit;
+			zbLogo, noStar, forkup, forkdown, yoghurtImage ;
+	private Animation fingerAnimation;
+	private Fruit[] fruit;
 
 	// Tween stuff
 	private TweenManager manager;
@@ -125,7 +126,7 @@ public class GameRenderer {
 		forkdown = AssetLoader.forkdown;
 		fruit = AssetLoader.fruit;
 		yoghurtImage = AssetLoader.yoghurt;
-		finger = AssetLoader.finger;
+		fingerAnimation = AssetLoader.fingerAnimation;
 	}
 
 
@@ -158,7 +159,7 @@ public class GameRenderer {
 			
 		case MENU:
 		case OPTIONS:
-			title.draw(batcher,bar,skullUp,skullDown,finger);
+			title.draw(batcher,bar,skullUp,skullDown,fingerAnimation.getKeyFrame(runTime),fruit[bird.getFruitValue()]);
 			buttonhandler.draw(batcher);
 			break;
 			

@@ -252,9 +252,9 @@ public class Bird {
 		}
 	}
 	
-	public void draw(SpriteBatch batcher, TextureRegion[] fruit) {
+	public void draw(SpriteBatch batcher, Fruit[] fruit) {
 		
-		batcher.draw(fruit[fruitValue],
+		batcher.draw(fruit[fruitValue].getImage(),
 				 position.x,
 			     position.y,
 			     diameter / 2.0f, 

@@ -5,41 +5,36 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.sleepware.GameObjects.Fruit;
 
 public class AssetLoader {
 	
 
 	public static final int NUMBER_OF_FRUIT= 4;
+	public static final int NUMBER_OF_FINGER_FRAMES= 3;
 
-	private static Texture texture, logoTexture, ball1Texture, starsTexture, spoonTexture, forkTexture, stripeTexture, yoghurtTexture, fingerTexture;
+	private static Texture texture, logoTexture, starsTexture, spoonTexture, forkTexture, stripeTexture, yoghurtTexture;
 	public static TextureRegion logo, zbLogo, bg, grass, bird, birdDown,
 			birdUp, skullUp, skullDown, bar, playButtonUp, playButtonDown,
-			star, noStar, ball1, ball2, ball3, stars, forkup, forkdown, yoghurt, finger;
-	public static Texture[] fruitTexture; //, blurredFruitTexture;
-	public static TextureRegion[] fruit; //, blurredFruit;
+			star, noStar, ball1, ball2, ball3, stars, forkup, forkdown, yoghurt;
+	
+	public static Fruit[] fruit;
+
+	private static Texture[] fingerTexture;
+	private static TextureRegion[] finger;	
+	public static Animation fingerAnimation;
 
 	public static Texture buttonsTexture;
 	public static TextureRegion[] buttons;
 
-	//public static Animation birdAnimation;
 	public static Sound dead, flap, coin, fall;
 	public static BitmapFont font, shadow, whiteFont;
 	private static Preferences prefs;
 
 	public static float volume;
-
-	private static void loadFruit(int index, String fruitname) {
-				
-		fruitTexture[index]=new Texture(Gdx.files.internal(fruitname+"small.png"));
-		fruitTexture[index].setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		fruit[index] = new TextureRegion(fruitTexture[index], 0, 0, 32, 32);
-		
-		//blurredFruitTexture[index]=new Texture(Gdx.files.internal(fruitname+"small_blurred.png"));
-		//blurredFruitTexture[index].setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		//blurredFruit[index] = new TextureRegion(blurredFruitTexture[index], 0, 0, 32, 32);
-	}
 
 	
 	public static void load() {
@@ -104,38 +99,19 @@ public class AssetLoader {
 		forkdown.flip(true, false);		
 		
 		
-		//ball1Texture = new Texture(Gdx.files.internal("blueball1.png"));
-		//ball1Texture = new Texture(Gdx.files.internal("applesmall.png"));
-		ball1Texture = new Texture(Gdx.files.internal("strawberrysmall.png"));
-		ball1Texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-
-		ball1 = new TextureRegion(ball1Texture, 0, 0, 32, 32);
-
-		/*
-		ball2Texture = new Texture(Gdx.files.internal("blueball2.png"));
-		ball2Texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-
-		ball2 = new TextureRegion(ball2Texture, 0, 0, 64, 64);
-		
-		ball3Texture = new Texture(Gdx.files.internal("blueball3.png"));
-		ball3Texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-
-		ball3 = new TextureRegion(ball3Texture, 0, 0, 64, 64);
-		*/
 		
 		//TextureRegion[] balls = { ball1 }; //, ball2, ball3 };
 		//birdAnimation = new Animation(0.06f, balls);
 		//birdAnimation.setPlayMode(Animation.LOOP_PINGPONG);
 		
-		fruitTexture = new Texture[NUMBER_OF_FRUIT];
-		fruit = new TextureRegion[NUMBER_OF_FRUIT];
-		//blurredFruitTexture = new Texture[NUMBER_OF_FRUIT];
-		//blurredFruit = new TextureRegion[NUMBER_OF_FRUIT];
+		fruit = new Fruit[NUMBER_OF_FRUIT];
 		
-		loadFruit(0,"strawberry");
-		loadFruit(1,"apple");
-		loadFruit(2,"lemon");
-		loadFruit(3,"grapes");
+		
+		fruit[0] = new Fruit("strawberry");
+		fruit[1] = new Fruit("apple");
+		fruit[2] = new Fruit("lemon");
+		fruit[3] = new Fruit("grapes");
+		
 	
 		buttons = new TextureRegion[2];
 
@@ -146,13 +122,20 @@ public class AssetLoader {
 		buttons[0].flip(false, true);
 		buttons[1].flip(false, true);
 		
-			
-		fingerTexture = new Texture(Gdx.files.internal("finger.png"));
-		fingerTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		finger = new TextureRegion(fingerTexture, 0, 0, 46, 64);
-		finger.flip(false, true);	
 		
-		//starsTexture = new Texture(Gdx.files.internal("stars.png"));
+		fingerTexture = new Texture[NUMBER_OF_FINGER_FRAMES];
+		finger = new TextureRegion[NUMBER_OF_FINGER_FRAMES];
+		
+		for(int i=0; i<NUMBER_OF_FINGER_FRAMES; i++) {
+			fingerTexture[i] = new Texture(Gdx.files.internal("finger"+i+".png"));
+			fingerTexture[i].setFilter(TextureFilter.Linear, TextureFilter.Linear);
+			finger[i] = new TextureRegion(fingerTexture[i], 0, 0, 46, 64);
+			finger[i].flip(false, true);	
+		}
+		fingerAnimation = new Animation(0.13f, finger);
+		fingerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		
+		
 		starsTexture = new Texture(Gdx.files.internal("icecream.png"));
 		starsTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
@@ -165,7 +148,6 @@ public class AssetLoader {
 		stripeTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
 		grass = new TextureRegion(stripeTexture, 0, 23, 64, 512-23);
-		//grass.flip(false, true);
 		
 		
 		yoghurtTexture = new Texture(Gdx.files.internal("yoghurt.png"));

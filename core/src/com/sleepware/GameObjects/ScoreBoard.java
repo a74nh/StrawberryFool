@@ -74,7 +74,7 @@ public class ScoreBoard {
 	}
 	
 	
-	public void draw(SpriteBatch batcher, TextureRegion[] blurredFruit, TextureRegion star) {
+	public void draw(SpriteBatch batcher, Fruit[] fruit, TextureRegion star) {
 
 		final int x = grassLeftStart + 40;
 		
@@ -99,7 +99,7 @@ public class ScoreBoard {
 		}
 		for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++)
 		{
-			fallingFruit[i].draw(batcher,blurredFruit);
+			fallingFruit[i].draw(batcher,fruit);
 		}	
 		
 	}

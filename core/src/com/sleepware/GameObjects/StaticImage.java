@@ -22,6 +22,14 @@ public class StaticImage {
 		return boundingRectangle.y;
 	}
 
+	public void setX(float x) {
+		boundingRectangle.x=x;
+	}
+
+	public void setY(float y) {
+		boundingRectangle.y=y;
+	}
+	
 	public float getWidth() {
 		return boundingRectangle.width;
 	}

@@ -50,7 +50,7 @@ public class Yoghurt {
 	
 	
 	public void draw(SpriteBatch batcher, ShapeRenderer shapeRenderer,
-			TextureRegion yoghurtImage, TextureRegion[] fruitImages) {
+			TextureRegion yoghurtImage, Fruit[] fruitImages) {
 		
 		shapeRenderer.begin(ShapeType.Filled);
 
@@ -63,7 +63,7 @@ public class Yoghurt {
 		batcher.begin();
 	
 		for(int i=0; i<NUMBER_OF_FRUIT; i++) {
-			fruit[i].draw(batcher, fruitImages[fruitId[i]]);
+			fruit[i].draw(batcher, fruitImages[fruitId[i]].getImage());
 		}
 		
 		white.draw(batcher,yoghurtImage);

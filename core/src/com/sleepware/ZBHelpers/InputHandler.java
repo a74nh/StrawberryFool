@@ -1,10 +1,5 @@
 package com.sleepware.ZBHelpers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.TweenCallback;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -13,12 +8,8 @@ import com.sleepware.GameObjects.Bird;
 import com.sleepware.GameObjects.ButtonHandler;
 import com.sleepware.GameObjects.ScrollHandler;
 import com.sleepware.GameObjects.Title;
-import com.sleepware.GameWorld.GameLevel.GameType;
-import com.sleepware.GameWorld.GameWorld.GameState;
 import com.sleepware.GameWorld.GameWorld;
-import com.sleepware.Screens.GameScreen;
-import com.sleepware.ui.SimpleButton;
-import com.sleepware.ui.SimpleButton.ActionFunction;
+
 
 public class InputHandler implements InputProcessor {
 	private ScrollHandler myScrollHandler;

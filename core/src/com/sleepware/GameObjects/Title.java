@@ -7,11 +7,14 @@ import com.sleepware.ZBHelpers.AssetLoader;
 
 public class Title {
 
-	private int gameWidth;
-	private int gameHeight;
+	private final int MAX_FINGER_DISPLAYS = 2;
+	
+	private final int gameWidth;
+	private final int gameHeight;
 	private Spoon spoon;
 	private StaticImage finger;
-	private boolean fingerDisplayed;
+	private int fingerDisplayed;
+	private final int grassRightStart;
 
 	final private int titleY;
 	
@@ -27,11 +30,12 @@ public class Title {
 		spoon.setLevelAttributes(0, 100, 0);
 		spoon.reset(spoonY);
 		
-
-		int fingerX = grassRightStart- spoon.getWidth();
+		this.grassRightStart = grassRightStart;
+		
+		int fingerX = grassRightStart - spoon.getWidth();
 
 		finger = new StaticImage(fingerX, spoonY, spoonHeadHeight, spoonHeadHeight);
-		fingerDisplayed=true;
+		fingerDisplayed=0;
 	}
 	
 	
@@ -47,10 +51,11 @@ public class Title {
 			TextureRegion bar, 
 			TextureRegion headUp, 
 			TextureRegion headDown,
-			TextureRegion finger) {
+			TextureRegion finger,
+			Fruit fruit) {
 		
 		drawText(batcher,
-				"Strawberry",
+				fruit.getName(),
 				(gameWidth / 2) - 30,
 				titleY);
 
@@ -62,7 +67,7 @@ public class Title {
 		spoon.draw(batcher, bar);
 		spoon.drawHeads(batcher,headUp,headDown,headUp,headDown);
 		
-		if(fingerDisplayed) {
+		if(fingerDisplayed<MAX_FINGER_DISPLAYS) {
 			this.finger.draw(batcher,finger);
 		}
 	}
@@ -76,7 +81,8 @@ public class Title {
 		
 		if (spoon.pointYcollides(screenY)) {
 			spoon.move(screenX);
-			fingerDisplayed=false;
+			finger.setX(grassRightStart - screenX);
+			fingerDisplayed++;
 			return true;
 		}
 		return false;
