@@ -233,13 +233,16 @@ public class ScrollHandler {
 			TextureRegion headDown, 
 			TextureRegion forkup, 
 			TextureRegion forkdown, 
-			Fruit[] fruit) {
+			Fruit[] fruit,
+			boolean drawFruit) {
 
 		batcher.enableBlending();
 
-		for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++)
-		{
-			fallingFruit[i].draw(batcher,fruit);
+		if(drawFruit) {
+			for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++)
+			{
+				fallingFruit[i].draw(batcher,fruit);
+			}
 		}
 		
 		for(int i=0; i<NUMBER_OF_SPOONS; i++) {

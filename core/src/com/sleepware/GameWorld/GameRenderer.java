@@ -1,7 +1,5 @@
 package com.sleepware.GameWorld;
 
-import java.util.List;
-
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
@@ -115,7 +113,7 @@ public class GameRenderer {
 	}
 
 	private void initAssets() {
-		bg = AssetLoader.stars;
+		bg = AssetLoader.backgroundImage;
 		grassTex = AssetLoader.grass;
 		skullUp = AssetLoader.skullUp;
 		skullDown = AssetLoader.skullDown;
@@ -147,33 +145,36 @@ public class GameRenderer {
 		batcher.begin();
 		background.draw(batcher,bg);
 
-		scroller.draw(batcher,bar,skullUp,skullDown,forkup,forkdown,fruit);
 		
-		bird.draw(batcher,fruit);
 		
 		switch(myWorld.getState()) {
 		
 		case RUNNING:
+			scroller.draw(batcher,bar,skullUp,skullDown,forkup,forkdown,fruit,true);
 			hud.draw(batcher,delta);
 			break;
 			
 		case MENU:
 		case OPTIONS:
+			scroller.draw(batcher,bar,skullUp,skullDown,forkup,forkdown,fruit,false);
 			title.draw(batcher,bar,skullUp,skullDown,fingerAnimation.getKeyFrame(runTime),fruit[bird.getFruitValue()]);
 			buttonhandler.draw(batcher);
 			break;
 			
 		case READY:
+			scroller.draw(batcher,bar,skullUp,skullDown,forkup,forkdown,fruit,false);
 			buttonhandler.draw(batcher);
 			break;
 		
 		case PAUSED:
+			scroller.draw(batcher,bar,skullUp,skullDown,forkup,forkdown,fruit,true);
 			hud.draw(batcher,delta);
 			buttonhandler.draw(batcher);
 			break;
 		
 		case GAMEOVER:
 		case HIGHSCORE:
+			scroller.draw(batcher,bar,skullUp,skullDown,forkup,forkdown,fruit,false);
 			buttonhandler.draw(batcher);
 			scoreBoard.draw(batcher, fruit, noStar);
 			break;
@@ -181,6 +182,9 @@ public class GameRenderer {
 		default:
 			break;
 		}
+		
+		bird.draw(batcher,fruit);
+
 		
 		scroller.drawFg(batcher,grassTex);
 		

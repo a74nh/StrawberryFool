@@ -40,13 +40,6 @@ public class Title {
 	
 	
 	
-	private void drawText(SpriteBatch batcher, String s, int x, int y) {
-		AssetLoader.shadow.draw(batcher, s, x, y);
-		AssetLoader.font.draw(batcher, s, x, y);
-	}
-	
-	
-	
 	public void draw(SpriteBatch batcher,
 			TextureRegion bar, 
 			TextureRegion headUp, 
@@ -54,16 +47,16 @@ public class Title {
 			TextureRegion finger,
 			Fruit fruit) {
 		
-		drawText(batcher,
-				fruit.getName(),
-				(gameWidth / 2) - 30,
+		AssetLoader.drawText(batcher,
+				fruit.getName() + "    FOOL",
+				30, //(gameWidth / 2) - 30,
 				titleY);
-
-		drawText(batcher,
-				"Fool",
+/*
+		AssetLoader.drawText(batcher,
+				"FOOL",
 				(gameWidth / 2) - 30,
-				titleY - (int)AssetLoader.font.getLineHeight());
-		
+				titleY - (int)AssetLoader.getLineHeight());
+*/		
 		spoon.draw(batcher, bar);
 		spoon.drawHeads(batcher,headUp,headDown,headUp,headDown);
 		

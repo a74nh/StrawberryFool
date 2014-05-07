@@ -53,12 +53,6 @@ public class SimpleButton {
 	}
 
 	
-	private void drawText(SpriteBatch batcher, String s, int x, int y) {
-		AssetLoader.shadow.draw(batcher, s, x, y);
-		AssetLoader.font.draw(batcher, s, x, y);
-	}
-	
-	
 	public void draw(SpriteBatch batcher) {
 		if (isPressed) {
 			if(buttonDown!=null)
@@ -67,7 +61,7 @@ public class SimpleButton {
 			if(buttonUp!=null)
 				batcher.draw(buttonUp, x, y, width, height);
 		}
-		drawText(batcher,title,x+5,y+5);
+		AssetLoader.drawText(batcher,title,x+5,y+5);
 	}
 
 	public boolean isTouchDown(int screenX, int screenY) {

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.sleepware.GameObjects.Fruit;
 
@@ -16,10 +17,10 @@ public class AssetLoader {
 	public static final int NUMBER_OF_FRUIT= 4;
 	public static final int NUMBER_OF_FINGER_FRAMES= 3;
 
-	private static Texture texture, logoTexture, starsTexture, spoonTexture, forkTexture, stripeTexture, yoghurtTexture;
+	private static Texture logoTexture, backgroundTexture, spoonTexture, forkTexture, stripeTexture, yoghurtTexture, crossTexture;
 	public static TextureRegion logo, zbLogo, bg, grass, bird, birdDown,
 			birdUp, skullUp, skullDown, bar, playButtonUp, playButtonDown,
-			star, noStar, ball1, ball2, ball3, stars, forkup, forkdown, yoghurt;
+			noStar, ball1, ball2, ball3, backgroundImage, forkup, forkdown, yoghurt;
 	
 	public static Fruit[] fruit;
 
@@ -31,7 +32,7 @@ public class AssetLoader {
 	public static TextureRegion[] buttons;
 
 	public static Sound dead, flap, coin, fall;
-	public static BitmapFont font, shadow, whiteFont;
+	private static BitmapFont font, shadow, whiteFont;
 	private static Preferences prefs;
 
 	public static float volume;
@@ -44,65 +45,21 @@ public class AssetLoader {
 
 		logo = new TextureRegion(logoTexture, 0, 0, 512, 114);
 
-		texture = new Texture(Gdx.files.internal("texture.png"));
-		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-
-		playButtonUp = new TextureRegion(texture, 0, 83, 29, 16);
-		playButtonDown = new TextureRegion(texture, 29, 83, 29, 16);
-		playButtonUp.flip(false, true);
-		playButtonDown.flip(false, true);
-
-		star = new TextureRegion(texture, 152, 70, 10, 10);
-		noStar = new TextureRegion(texture, 165, 70, 10, 10);
-
-		star.flip(false, true);
-		noStar.flip(false, true);
-
-		zbLogo = new TextureRegion(texture, 0, 55, 135, 24);
-		zbLogo.flip(false, true);
-
-		//bg = new TextureRegion(texture, 0, 0, 136, 43);
-		//bg.flip(false, true);
-
-
-		birdDown = new TextureRegion(texture, 136, 0, 17, 12);
-		birdDown.flip(false, true);
-
-		bird = new TextureRegion(texture, 153, 0, 17, 12);
-		bird.flip(false, true);
-
-		birdUp = new TextureRegion(texture, 170, 0, 17, 12);
-		birdUp.flip(false, true);
-
-		//TextureRegion[] birds = { birdDown, bird, birdUp };
-		//birdAnimation = new Animation(0.06f, birds);
-		//birdAnimation.setPlayMode(Animation.LOOP_PINGPONG);
-
-
 
 		spoonTexture = new Texture(Gdx.files.internal("spoon.png"));
 		forkTexture = new Texture(Gdx.files.internal("fork.png"));
 		
 
 		skullUp = new TextureRegion(spoonTexture, 62, 0, 65, 32);
-		// Create by flipping existing skullUp
 		skullDown = new TextureRegion(skullUp);
 		skullDown.flip(true, false);
 
 		bar = new TextureRegion(spoonTexture, 0, 10, 3, 12);
-				
-				//11, 96, 10, 3);
 		bar.flip(false, true);
 		
 		forkup = new TextureRegion(forkTexture, 62, 0, 65, 32);
 		forkdown = new TextureRegion(forkup);
 		forkdown.flip(true, false);		
-		
-		
-		
-		//TextureRegion[] balls = { ball1 }; //, ball2, ball3 };
-		//birdAnimation = new Animation(0.06f, balls);
-		//birdAnimation.setPlayMode(Animation.LOOP_PINGPONG);
 		
 		fruit = new Fruit[NUMBER_OF_FRUIT];
 		
@@ -136,12 +93,11 @@ public class AssetLoader {
 		fingerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		
 		
-		starsTexture = new Texture(Gdx.files.internal("icecream.png"));
-		starsTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		backgroundTexture = new Texture(Gdx.files.internal("icecream.png"));
+		backgroundTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
-		stars = new TextureRegion(starsTexture, 0, 0, 408, 272);
-		stars.flip(false, true);		
-		
+		backgroundImage = new TextureRegion(backgroundTexture, 0, 0, 408, 272);
+		backgroundImage.flip(false, true);		
 		
 
 		stripeTexture = new Texture(Gdx.files.internal("stripe.png"));
@@ -156,18 +112,22 @@ public class AssetLoader {
 		yoghurt = new TextureRegion(yoghurtTexture, 0, 0, 408, 272);
 		yoghurt.flip(false, true);		
 		
+		
+		crossTexture = new Texture(Gdx.files.internal("cross.png"));
+		noStar = new TextureRegion(crossTexture, 0, 0, 64, 64);
+		
 		dead = Gdx.audio.newSound(Gdx.files.internal("dead.wav"));
 		flap = Gdx.audio.newSound(Gdx.files.internal("flap.wav"));
 		coin = Gdx.audio.newSound(Gdx.files.internal("coin.wav"));
 		fall = Gdx.audio.newSound(Gdx.files.internal("fall.wav"));
 
-		font = new BitmapFont(Gdx.files.internal("text.fnt"));
+		font = new BitmapFont(Gdx.files.internal("gianthead.fnt"));
 		font.setScale(.25f, -.25f);
 
 		whiteFont = new BitmapFont(Gdx.files.internal("whitetext.fnt"));
 		whiteFont.setScale(.1f, -.1f);
 
-		shadow = new BitmapFont(Gdx.files.internal("shadow.fnt"));
+		shadow = new BitmapFont(Gdx.files.internal("gianthead_shadow.fnt"));
 		shadow.setScale(.25f, -.25f);
 
 		// Create (or retrieve existing) preferences file
@@ -215,7 +175,13 @@ public class AssetLoader {
 	
 	public static void dispose() {
 		// We must dispose of the texture when we are finished.
-		texture.dispose();
+		logoTexture.dispose();
+		backgroundTexture.dispose();
+		spoonTexture.dispose();
+		forkTexture.dispose();
+		stripeTexture.dispose();
+		yoghurtTexture.dispose();
+		crossTexture.dispose();
 
 		// Dispose sounds
 		dead.dispose();
@@ -226,4 +192,15 @@ public class AssetLoader {
 		shadow.dispose();
 	}
 
+	
+	public static void drawText(SpriteBatch batcher, String s, int x, int y) {
+		shadow.draw(batcher, s, x, y-2);
+		font.draw(batcher, s, x, y);
+	}
+	
+	public static float getLineHeight() {
+		return font.getLineHeight();
+	}
+
+	
 }

@@ -17,7 +17,9 @@ public class ButtonHandler {
 
 	private List<SimpleButton> menuButtons;
 	
-
+	private final int BUTTON_HEIGHT = 30;
+	
+	
 	public ButtonHandler(GameWorld myWorld, int gameWidth, int gameHeight) {
 
 		this.myWorld = myWorld;
@@ -48,7 +50,7 @@ public class ButtonHandler {
 			}
 		});
 			
-		buttonY+= 25 + 5;
+		buttonY+= BUTTON_HEIGHT + 5;
 		addButton("ARCADE", (gameWidth / 2), buttonY, GameState.MENU, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
@@ -61,7 +63,7 @@ public class ButtonHandler {
 		});
 		
 				
-		buttonY+= 25 + 5;
+		buttonY+= BUTTON_HEIGHT + 5;
 		addButton("OPTIONS", (gameWidth / 2), buttonY, GameState.MENU, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
@@ -88,7 +90,7 @@ public class ButtonHandler {
 				switch(numClicked) {
 				case 0:
 					numClicked++;
-					button.setTitle("CONFIRM");
+					button.setTitle("CONFIRM?");
 					break;
 					
 				case 1:
@@ -109,7 +111,7 @@ public class ButtonHandler {
 			}
 		});
 				
-		buttonY+= 25 + 5;
+		buttonY+= BUTTON_HEIGHT + 5;
 		addButton("SOUND", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
@@ -127,7 +129,7 @@ public class ButtonHandler {
 		});
 
 		
-		addLabel("ON", (gameWidth / 2) + 80, buttonY, GameState.OPTIONS, new ActionFunction() {
+		addLabel("ON", (gameWidth / 2) + 120, buttonY, GameState.OPTIONS, new ActionFunction() {
 			String on="ON";
 			String off="OFF";
 			
@@ -146,7 +148,7 @@ public class ButtonHandler {
 		});
 		
 		
-		buttonY+= 25 + 5;
+		buttonY+= BUTTON_HEIGHT + 5;
 		addButton("BACK", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
@@ -175,7 +177,7 @@ public class ButtonHandler {
 			}
 		});
 				
-		buttonY+= 25 + 5;
+		buttonY+= BUTTON_HEIGHT + 5;
 		addButton("QUIT", (gameWidth / 2), buttonY, GameState.PAUSED, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
@@ -187,35 +189,13 @@ public class ButtonHandler {
 			}
 		});		
 		
-
-		/**************************************************************************/
-		/* GAMEOVER */
-		/*************************************************************************/
-	/*			
-		buttonY = (gameHeight/10)*4;
-		addLabel("GAME OVER", (gameWidth / 2), buttonY, GameState.GAMEOVER, null);
-		
-		buttonY+= (25 + 5)*3;
-		addLabel("RETRY?", (gameWidth / 2), buttonY, GameState.GAMEOVER, null);
-		*/
-
-		/**************************************************************************/
-		/* HIGHSCORE */
-		/*************************************************************************/
-/*				
-		buttonY = (gameHeight/10)*4;
-		addLabel("NEW HIGHSCORE!", (gameWidth / 2), buttonY, GameState.HIGHSCORE, null);
-		
-		buttonY+= (25 + 5)*3;
-		addLabel("RETRY?", (gameWidth / 2), buttonY, GameState.HIGHSCORE, null);
-	*/	
 		
 		/**************************************************************************/
 		/* READY */
 		/*************************************************************************/
 				
 		buttonY = (gameHeight/10)*4;
-		addLabel("READY...", (gameWidth / 2), buttonY, GameState.READY, null);
+		addLabel("READY . . .", (gameWidth / 2), buttonY, GameState.READY, null);
 		
 	}
 		
@@ -229,7 +209,7 @@ public class ButtonHandler {
 				x - (width/2),
 				y,
 				width,
-				25, 
+				BUTTON_HEIGHT, 
 				null,
 				null,
 				action,
@@ -242,13 +222,13 @@ public class ButtonHandler {
 	
 	private void addButton(String title, int x, int y, GameState gamestate, ActionFunction action) {
 		
-		final int width = 75;
+		final int width = 100;
 		
 		SimpleButton button = new SimpleButton(
 				x - (width/2),
 				y,
 				width,
-				25, 
+				BUTTON_HEIGHT, 
 				AssetLoader.buttons[0],
 				AssetLoader.buttons[1],
 				action,

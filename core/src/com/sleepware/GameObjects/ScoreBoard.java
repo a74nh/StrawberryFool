@@ -67,32 +67,26 @@ public class ScoreBoard {
 		}
 	
 	}
-	
-	private void drawText(SpriteBatch batcher, String s, int x, int y) {
-		AssetLoader.shadow.draw(batcher, s, x, y);
-		AssetLoader.font.draw(batcher, s, x, y);
-	}
-	
+
 	
 	public void draw(SpriteBatch batcher, Fruit[] fruit, TextureRegion star) {
 
 		final int x = grassLeftStart + 40;
 		
-		drawText(batcher,"GAMEOVER", x, (gameHeight/2) - 150 );
+		AssetLoader.drawText(batcher,"GAMEOVER", x, (gameHeight/2) - 150 );
 
-		drawText(batcher,"SCORE: "+gameWorld.getScore(), x, (gameHeight/2) - 100 );
+		AssetLoader.drawText(batcher,"SCORE :   "+gameWorld.getScore(), x, (gameHeight/2) - 100 );
 
 		if(highscore) {
-			drawText(batcher,"NEW HIGHSCORE!", x, (gameHeight/2) - 80 );
+			AssetLoader.drawText(batcher,"NEW HIGHSCORE !", x, (gameHeight/2) - 80 );
 		} else {
-			drawText(batcher,"HIGHSCORE: "+AssetLoader.getHighScore(), x, (gameHeight/2) -80 );
+			AssetLoader.drawText(batcher,"HIGHSCORE :   "+AssetLoader.getHighScore(), x, (gameHeight/2) -80 );
 		}
 
-		drawText(batcher,"RATING:", x, (gameHeight/2) - 20 );
+		AssetLoader.drawText(batcher,"RATING :", x, (gameHeight/2) - 20 );
 
-		drawText(batcher,"RETRY?", x, (gameHeight/2) + 100 );
+		AssetLoader.drawText(batcher,"RETRY  ?", x, (gameHeight/2) + 100 );
 
-		
 		for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++)
 		{
 			staticImage[i].draw(batcher,star);

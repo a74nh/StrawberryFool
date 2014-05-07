@@ -18,7 +18,7 @@ public class Fruit {
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		image = new TextureRegion(texture, 0, 0, 32, 32);
 
-		this.name = name;
+		this.name = name.toUpperCase();
 	}
 
 	public String getName() {

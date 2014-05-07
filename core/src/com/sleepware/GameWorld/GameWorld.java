@@ -42,7 +42,6 @@ public class GameWorld {
 
 	
 	public GameWorld(int gameWidth, int gameHeight, int minX, int maxX) {
-		currentState = GameState.MENU;
 		this.midPointX = gameWidth/2;
 		
 		//gameWidth should be 272
@@ -76,10 +75,12 @@ public class GameWorld {
 		scroller = new ScrollHandler(this, minX, maxX, gameWidth, groundStart, grassSize, spoonSize, spoonHandleWidth, spoonHandleHeight, fallingFruitDiameter);
 		background = new StaticImage(minX,0,maxX,groundStart);
 		yoghurt = new Yoghurt(0,groundStart,gameWidth,gameHeight-groundStart, staticFruitDiameter, minX, maxX);
-		hud = new Hud(this, groundStart, minX, maxX, AssetLoader.font, AssetLoader.shadow);
+		hud = new Hud(this, groundStart, minX, maxX);
 		title = new Title(minX, maxX, gameWidth, gameHeight, spoonSize, spoonHandleWidth, spoonHandleHeight);
 		buttonhandler = new ButtonHandler(this, gameWidth, gameHeight);
 		scoreBoard = new ScoreBoard(this, minX, maxX, gameWidth, gameHeight, fallingFruitDiameter);
+		
+		setState(GameState.MENU);
 	}
 
 	public void update(float delta) {
