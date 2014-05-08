@@ -32,18 +32,17 @@ public class GameLevel {
 		onRestart();
 	}
 	
+	//Number of pipes in a level
 	public int getMaxProgress() {
 		return 5 + level;
 	}
 	
-	/*public int getPipeGap() {
-		return 59;
-	}*/
-	
-	public int getVerticalPipeGap() {
+	//Gap between the two spoons on one row
+	public int getHorizontalPipeGap() {
 		return 145 - (level*5);
 	}
 	
+	//Speed at which walls and spoons scroll
 	public int getScrollSpeed() {
 		return -79 - (level*5);
 	}
@@ -56,7 +55,10 @@ public class GameLevel {
 		//return BirdMotion.SINE;
 		if(level==0) return BirdMotion.NONE;
 		
-		return BirdMotion.getEnum((level-1)%2);
+		if(level%10>=5) return BirdMotion.SINE;
+		
+		return BirdMotion.LINEAR;
+		//return BirdMotion.getEnum((level-1)%2);
 	}
 	
 	public int getBirdYPosition() {

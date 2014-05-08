@@ -29,6 +29,9 @@ import com.sleepware.ZBHelpers.AssetLoader;
 
 public class GameRenderer {
 	
+	private final boolean view_collisions = true;
+
+	
 	private int gameWidth;
 	private int gameHeight;
 	
@@ -193,14 +196,29 @@ public class GameRenderer {
 		yoghurt.draw(batcher, shapeRenderer, yoghurtImage, fruit);
 
 		
-		/*
-		shapeRenderer.begin(ShapeType.Filled);
-		Gdx.gl.glEnable(GL10.GL_BLEND);
-		shapeRenderer.setColor(125 / 255.0f, 125 / 255.0f, 125 / 255.0f, 0.5f);
-		//scroller.drawCollisions(shapeRenderer);
-		shapeRenderer.circle(bird.getBoundingCircle().x, bird.getBoundingCircle().y, bird.getBoundingCircle().radius);
-		shapeRenderer.end();
-		*/
+		//COLLISIONS VIEW
+		if(view_collisions ) {
+			shapeRenderer.begin(ShapeType.Filled);
+			Gdx.gl.glEnable(GL20.GL_BLEND);
+			shapeRenderer.setColor(125 / 255.0f, 125 / 255.0f, 125 / 255.0f, 0.5f);
+			
+			switch(myWorld.getState()) {
+			case RUNNING:
+				scroller.drawCollisions(shapeRenderer);
+				break;
+				
+			case MENU:
+			case OPTIONS:
+				title.drawCollisions(shapeRenderer);
+				
+			default:
+				break;
+			}
+			
+			shapeRenderer.circle(bird.getBoundingCircle().x, bird.getBoundingCircle().y, bird.getBoundingCircle().radius);
+			shapeRenderer.end();
+		}
+		
 
 		drawTransition(delta);
 

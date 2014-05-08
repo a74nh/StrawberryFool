@@ -2,6 +2,7 @@ package com.sleepware.GameObjects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.sleepware.GameObjects.Spoon.Collides;
 import com.sleepware.GameWorld.GameLevel;
 import com.sleepware.GameWorld.GameWorld;
@@ -170,7 +171,7 @@ public class ScrollHandler {
 		
 		for(int i=0; i<NUMBER_OF_SPOONS; i++)
 		{
-			spoon[i].setLevelAttributes(level.getScrollSpeed(),level.getVerticalPipeGap(),level.getDeathVelocity());
+			spoon[i].setLevelAttributes(level.getScrollSpeed(),level.getHorizontalPipeGap(),level.getDeathVelocity());
 		}
 		
 		for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++)
@@ -246,13 +247,10 @@ public class ScrollHandler {
 		}
 		
 		for(int i=0; i<NUMBER_OF_SPOONS; i++) {
-			spoon[i].draw(batcher,bar);
-		}
-		
-
-		for(int i=0; i<NUMBER_OF_SPOONS; i++) {
+			spoon[i].drawBar(batcher,bar);
 			spoon[i].drawHeads(batcher,headUp,headDown,forkup,forkdown);
 		}
+		
 	}
 		
 	public void drawFg(SpriteBatch batcher, 
@@ -260,7 +258,7 @@ public class ScrollHandler {
 		
 		for(int i=0; i<NUMBER_OF_GRASSES; i++) {
 			for(int j=0; j<2; j++) {
-				candywall[i][j].draw(batcher,grassTex);
+				candywall[i][j].drawBar(batcher,grassTex);
 			}
 		}		
 	}
@@ -324,6 +322,13 @@ public class ScrollHandler {
 	
 	public void nextLevel() {
 		setLevelAttributes();
+	}
+
+	public void drawCollisions(ShapeRenderer shapeRenderer) {
+		for(int i=0; i<NUMBER_OF_SPOONS; i++) {
+			spoon[i].drawCollisions(shapeRenderer);
+		}
+		
 	}
 
 

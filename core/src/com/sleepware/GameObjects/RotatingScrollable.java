@@ -32,7 +32,7 @@ public class RotatingScrollable extends Scrollable {
 		rotationVelocity = 0;
 	}
 
-	public void draw(SpriteBatch batcher, TextureRegion texture) {	
+	public void drawBar(SpriteBatch batcher, TextureRegion texture) {	
 		batcher.draw(texture,
 				 position.x,
 			     position.y,

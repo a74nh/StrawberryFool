@@ -3,6 +3,7 @@ package com.sleepware.GameObjects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.sleepware.ZBHelpers.AssetLoader;
 
 public class Title {
@@ -57,7 +58,7 @@ public class Title {
 				(gameWidth / 2) - 30,
 				titleY - (int)AssetLoader.getLineHeight());
 */		
-		spoon.draw(batcher, bar);
+		spoon.drawBar(batcher, bar);
 		spoon.drawHeads(batcher,headUp,headDown,headUp,headDown);
 		
 		if(fingerDisplayed<MAX_FINGER_DISPLAYS) {
@@ -81,4 +82,7 @@ public class Title {
 		return false;
 	}
 	
+	public void drawCollisions(ShapeRenderer shapeRenderer) {
+		spoon.drawCollisions(shapeRenderer);		
+	}
 }

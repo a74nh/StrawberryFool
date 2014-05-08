@@ -129,7 +129,7 @@ public class ButtonHandler {
 		});
 
 		
-		addLabel("ON", (gameWidth / 2) + 120, buttonY, GameState.OPTIONS, new ActionFunction() {
+		addLabel("ON", (gameWidth / 2) + 100, buttonY, GameState.OPTIONS, new ActionFunction() {
 			String on="ON";
 			String off="OFF";
 			

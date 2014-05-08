@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -20,12 +21,13 @@ public class Spoon extends Scrollable {
 	private Random r;
 
 	private Rectangle barLeft, barRight;
-	private Rectangle headLeft, headRight;
-
+//	private Rectangle headLeft, headRight;
+	private SpoonHead headL, headR;
+	
 	private int middle_gap;
 	private int headWidth;
 	private int headHeight;
-	private int pipeSize;
+	private int barHeight;
 
 	private int minX;
 	private int maxX;
@@ -41,15 +43,15 @@ public class Spoon extends Scrollable {
 	private int deathVelocity;
 
 	
-	public Spoon(float y, int pipeSize, int headWidth, int headHeight, int minX, int maxX, float velocityMultiplier) {
+	public Spoon(float y, int barHeight, int headWidth, int headHeight, int minX, int maxX, float velocityMultiplier) {
 		super(0, y, 0, headHeight, velocityMultiplier);
 
 		this.headWidth=headWidth;
 		this.headHeight=headHeight;
-		this.pipeSize=pipeSize;
+		this.barHeight=barHeight;
 		r = new Random();
-		headLeft = new Rectangle();
-		headRight = new Rectangle();
+		headL = new SpoonHead(headWidth, headHeight, 12, barHeight, false);
+		headR = new SpoonHead(headWidth, headHeight, 12, barHeight, true);
 		barLeft = new Rectangle();
 		barRight = new Rectangle();
 		
@@ -70,24 +72,20 @@ public class Spoon extends Scrollable {
 		barLeft.set(minX, 
 				position.y, 
 				width - headWidth - additionalCaughtGap, 
-				pipeSize);
+				barHeight);
 		
 		float barRightXPosition = width + middle_gap + additionalCaughtGap;
 		
 		barRight.set(barRightXPosition + headWidth, 
 				position.y, 
 				maxX-barRightXPosition-headWidth,
-				pipeSize);
-
-		headLeft.set(width - headWidth - additionalCaughtGap,
-				position.y - ((headHeight - pipeSize) / 2),
-				headWidth, 
-				headHeight);
+				barHeight);
 		
-		headRight.set(barRightXPosition,
-				position.y - ((headHeight - pipeSize) / 2),
-				headWidth,
-				headHeight);
+		headL.updateBoundingBoxes(width - headWidth - additionalCaughtGap,
+				position.y - ((headHeight - barHeight) / 2));
+		
+		headR.updateBoundingBoxes(barRightXPosition,
+				position.y - ((headHeight - barHeight) / 2));
 
 	}
 
@@ -118,8 +116,6 @@ public class Spoon extends Scrollable {
 	@Override
 	public void reset(float newY) {
 		super.reset(newY);
-		headLeft.y=newY;
-		headRight.y=newY;
 		// Change to a random number
 		width = r.nextInt(maxX-minX) +minX;
 		destination=width;
@@ -140,13 +136,13 @@ public class Spoon extends Scrollable {
 		if (COLLISION_DETECTION && position.x < bird.getX() + bird.getDiameter()) {
 			
 			if (Intersector.overlaps(bird.getBoundingCircle(), barLeft) ||
-					Intersector.overlaps(bird.getBoundingCircle(), headLeft)	) {
+				headL.collides(bird)) {
 				caughtFruit=true;
 				return Collides.LEFT;
 			}
 			
 			if (Intersector.overlaps(bird.getBoundingCircle(), barRight) ||
-					Intersector.overlaps(bird.getBoundingCircle(), headRight)) {
+				headR.collides(bird)) {
 				caughtFruit=true;
 				return Collides.RIGHT;
 			}
@@ -155,7 +151,7 @@ public class Spoon extends Scrollable {
 	}
 
 	public boolean pointYcollides(int screenY) {
-		return (screenY>=headLeft.y && screenY<=headLeft.y+headLeft.height);
+		return (headL.pointYcollides(screenY));
 	}
 	
 	public boolean isScored() {
@@ -170,43 +166,23 @@ public class Spoon extends Scrollable {
 		destination=screenX-(middle_gap/2);
 	}
 	
-	public void draw(SpriteBatch batcher, TextureRegion normalTexture) {
+	public void drawBar(SpriteBatch batcher, TextureRegion normalTexture) {
 
 		batcher.draw(normalTexture, barLeft.x,barLeft.y,barLeft.width,barLeft.height);
 		batcher.draw(normalTexture, barRight.x,barRight.y,barRight.width,barRight.height);
 	}
 	
 	
-	public void drawHeads(SpriteBatch batcher, TextureRegion textureUp, TextureRegion textureDown, TextureRegion forkup, TextureRegion forkdown) {
+	public void drawHeads(SpriteBatch batcher, TextureRegion spoonLeft, TextureRegion spoonRight, TextureRegion forkLeft, TextureRegion forkRight) {
 
 		if (!isBar) {
-
-			batcher.draw(textureUp, 
-					headLeft.x, 
-					headLeft.y,
-					headLeft.width,
-					headLeft.height);
-			
-			batcher.draw(textureDown, 
-					headRight.x, 
-					headRight.y,
-					headRight.width,
-					headRight.height);
+			headL.draw(batcher, spoonLeft);
+			headR.draw(batcher, spoonRight);
 		}
 		else
 		{
-			batcher.draw(forkup, 
-					headLeft.x, 
-					headLeft.y,
-					headLeft.width,
-					headLeft.height);
-			
-			batcher.draw(forkdown, 
-					headRight.x, 
-					headRight.y,
-					headRight.width,
-					headRight.height);
-			
+			headL.draw(batcher, forkLeft);
+			headR.draw(batcher, forkRight);
 		}
 	}
 
@@ -218,7 +194,12 @@ public class Spoon extends Scrollable {
 		return isBar;
 	}
 
-
-
+	public void drawCollisions(ShapeRenderer shapeRenderer) {
+		
+		shapeRenderer.rect(barLeft.x, barLeft.y, barLeft.width, barLeft.height);
+		shapeRenderer.rect(barRight.x, barRight.y, barRight.width, barRight.height);
+		headL.drawCollisions(shapeRenderer);
+		headR.drawCollisions(shapeRenderer);
+	}
 	
 }

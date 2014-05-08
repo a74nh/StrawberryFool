@@ -59,7 +59,7 @@ public class FallingScore extends RotatingScrollable {
 	}
 	
 	public void draw(SpriteBatch batcher, Fruit[] fruit) {	
-		super.draw(batcher,fruit[fruitId].getImage());
+		super.drawBar(batcher,fruit[fruitId].getImage());
 	}
 
 }

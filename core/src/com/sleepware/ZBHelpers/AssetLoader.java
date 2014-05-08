@@ -15,7 +15,7 @@ public class AssetLoader {
 	
 
 	public static final int NUMBER_OF_FRUIT= 4;
-	public static final int NUMBER_OF_FINGER_FRAMES= 3;
+	public static final int NUMBER_OF_FINGER_FRAMES= 6;
 
 	private static Texture logoTexture, backgroundTexture, spoonTexture, forkTexture, stripeTexture, yoghurtTexture, crossTexture;
 	public static TextureRegion logo, zbLogo, bg, grass, bird, birdDown,
@@ -83,12 +83,23 @@ public class AssetLoader {
 		fingerTexture = new Texture[NUMBER_OF_FINGER_FRAMES];
 		finger = new TextureRegion[NUMBER_OF_FINGER_FRAMES];
 		
-		for(int i=0; i<NUMBER_OF_FINGER_FRAMES; i++) {
+		for(int i=0; i<3; i++) {
 			fingerTexture[i] = new Texture(Gdx.files.internal("finger"+i+".png"));
 			fingerTexture[i].setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			finger[i] = new TextureRegion(fingerTexture[i], 0, 0, 46, 64);
 			finger[i].flip(false, true);	
 		}
+		finger[3]=finger[1];
+		finger[4]=finger[0];
+		finger[5]=finger[0];
+		/*
+		finger[5]=finger[1];
+		finger[6]=finger[2];
+		finger[7]=finger[1];
+		finger[8]=finger[0];
+		finger[9]=finger[0];
+		finger[10]=finger[0];
+		*/
 		fingerAnimation = new Animation(0.13f, finger);
 		fingerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		

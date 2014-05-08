@@ -87,7 +87,7 @@ public class Scrollable {
 		return leader;
 	}
 	
-	public void draw(SpriteBatch batcher, TextureRegion texture) {
+	public void drawBar(SpriteBatch batcher, TextureRegion texture) {
 		batcher.draw(texture, position.x,position.y,width,height);
 	}
 	
