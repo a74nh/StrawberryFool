@@ -5,6 +5,38 @@ import com.sleepware.ZBHelpers.AssetLoader;
 
 public class GameLevel {
 
+	class LevelParam {
+		private final boolean ALWAYS_MAX_LEVEL=false;
+		//private final boolean ALWAYS_MAX_LEVEL=true;
+		
+		public final int min, max, inc;
+		
+		public LevelParam(int min, int max, int inc) {
+			this.min=min;
+			this.max=max;
+			this.inc=inc;
+		}
+		
+		public int getCurrent(int level) {
+			int current = min + (inc*level);
+			
+			if(inc>0) {
+				if (current>max || ALWAYS_MAX_LEVEL)
+					return max;
+			} else {
+				if (current<max || ALWAYS_MAX_LEVEL)
+					return max;
+			}
+			return current;
+		}
+	}
+	
+	private final LevelParam HORIZONTAL_PIPE_GAP = new LevelParam(145,100,-3); //Num Levels = 15
+	private final LevelParam MAX_SCROLL_SPEED = new LevelParam(79,150,5); //Num Levels = 15
+	private final LevelParam MAX_BIRD_POSITION = new LevelParam(0,130,5); //Num Levels = 26
+	private final LevelParam MAX_BIRD_SPEED = new LevelParam(50,100,5); // Num Levels = 10
+	
+			
 	public enum GameType {
 		STORY, ARCADE;
 	}
@@ -22,12 +54,10 @@ public class GameLevel {
 	private int progress;
 	private int level;
 	private GameWorld gameWorld;
-	private int gameWidth;
 	GameType gameType;
 	
-	public GameLevel(GameWorld gameWorld, int gameWidth) {
+	public GameLevel(GameWorld gameWorld) {
 		this.gameWorld=gameWorld;
-		this.gameWidth=gameWidth;
 		gameType=GameType.ARCADE;
 		onRestart();
 	}
@@ -39,35 +69,33 @@ public class GameLevel {
 	
 	//Gap between the two spoons on one row
 	public int getHorizontalPipeGap() {
-		return 145 - (level*5);
+		return HORIZONTAL_PIPE_GAP.getCurrent(level);
 	}
 	
 	//Speed at which walls and spoons scroll
 	public int getScrollSpeed() {
-		return -79 - (level*5);
-	}
-	
-	public int getOutOfBounds() {
-		return gameWidth/5 + (level*10);
+		return -MAX_SCROLL_SPEED.getCurrent(level);
 	}
 
+    //How far down the screen the bird is
+	public int getBirdYPosition() {
+		return MAX_BIRD_POSITION.getCurrent(level);
+	}
+	
+	//Speed in which the bird moves to and fro
+	public float getBirdSpeed() {
+		return MAX_BIRD_SPEED.getCurrent(level);
+	}
+	
+	//Way in which the bird moves to and fro
 	public BirdMotion getBirdMotion() {
-		//return BirdMotion.SINE;
 		if(level==0) return BirdMotion.NONE;
 		
 		if(level%10>=5) return BirdMotion.SINE;
 		
 		return BirdMotion.LINEAR;
-		//return BirdMotion.getEnum((level-1)%2);
 	}
 	
-	public int getBirdYPosition() {
-		return (5*level);
-	}
-	
-	public float getBirdSpeed() {
-		return 50+(level*12);
-	}
 	
 	public int getLevel() {
 		return level;

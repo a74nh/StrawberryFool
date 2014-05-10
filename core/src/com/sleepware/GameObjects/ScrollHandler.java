@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.sleepware.GameObjects.Spoon.Collides;
 import com.sleepware.GameWorld.GameLevel;
 import com.sleepware.GameWorld.GameWorld;
-import com.sleepware.ZBHelpers.AssetLoader;
 
 public class ScrollHandler {
 	
@@ -23,8 +22,7 @@ public class ScrollHandler {
 	private Falling[] fallingFruit;
 
 	private GameWorld gameWorld;
-	private final float gameWidth;
-	private final float gameHeight;
+	private final float groundStart;
 	private int birdHeight;
 
 	private LevelState levelState;
@@ -36,8 +34,7 @@ public class ScrollHandler {
 	public ScrollHandler(GameWorld gameWorld, 
 			int grassLeftStart, 
 			int grassRightStart, 
-			int gameWidth, 
-			int gameHeight, //Actually this is where the ground starts
+			int groundStart,
 			int grassSize,
 			int spoonSize,
 			int headWidth,
@@ -46,12 +43,11 @@ public class ScrollHandler {
 		
 		this.gameWorld = gameWorld;
 		level = gameWorld.getLevel();
-		this.gameWidth = gameWidth;
-		this.gameHeight = gameHeight;
+		this.groundStart = groundStart;
 		
-		final int grassLength = (int)gameHeight+2;
+		final int grassLength = (int)groundStart+2;
 		
-		pipeRestartPoint = (int) ((gameHeight*5/4)+headHeight);
+		pipeRestartPoint = (int) ((groundStart*5/4)+headHeight);
 		
         candywall = new Scrollable[NUMBER_OF_GRASSES][2];
 
@@ -70,7 +66,7 @@ public class ScrollHandler {
 		spoon = new Spoon[NUMBER_OF_SPOONS];
 		
 	
-		spoon[0] = new Spoon((gameHeight*3/2), spoonSize, headWidth, headHeight, grassLeftStart, grassRightStart, 1);
+		spoon[0] = new Spoon((groundStart*3/2), spoonSize, headWidth, headHeight, grassLeftStart, grassRightStart, 1);
 		for(int i=1; i<NUMBER_OF_SPOONS; i++)
 		{
 			spoon[i] = new Spoon(spoon[i-1].getTailY() + pipeGap,
@@ -90,7 +86,7 @@ public class ScrollHandler {
 		
 		for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++)
 		{
-			fallingFruit[i] = new Falling(fruitDiameter,fruitDiameter,(int) gameHeight, (int)(grassLeftStart+(i*offset)), (int)(grassLeftStart+((i+1)*offset)),1);
+			fallingFruit[i] = new Falling(fruitDiameter,fruitDiameter,(int) groundStart, (int)(grassLeftStart+(i*offset)), (int)(grassLeftStart+((i+1)*offset)),1);
 		}
 		
 		onRestart();
@@ -143,7 +139,7 @@ public class ScrollHandler {
 					levelState=LevelState.GENERATE_FAR_AWAY;
 					break;
 				case GENERATE_FAR_AWAY:
-					spoon[i].incY(gameHeight);
+					spoon[i].incY(groundStart);
 					levelState=LevelState.NORMAL;
 					break;
 				default:
@@ -207,9 +203,9 @@ public class ScrollHandler {
 			Spoon p = spoon[i];
 			if (!p.isScored()
 					&& p.getY() + (p.getHeight() / 2) < bird.getY() + bird.getDiameter()) {
-				addScore(1);
+				gameWorld.addScore(1);
 				p.setScored(true);
-				AssetLoader.coin.play(AssetLoader.volume);
+				
 				if(p.getIsBar()) {
 					//Once passed the bar, it's safe to move to next level
 					gameWorld.nextLevel();
@@ -263,10 +259,6 @@ public class ScrollHandler {
 		}		
 	}
 
-
-	private void addScore(int increment) {
-		gameWorld.addScore(increment);
-	}
 
 	public Scrollable[][] getGrasses() {
 		return candywall;

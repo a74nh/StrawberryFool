@@ -69,16 +69,16 @@ public class GameWorld {
 		final int fallingFruitDiameter = birdDiameter*2/3;
 		final int staticFruitDiameter = birdDiameter*2/3;
 		
-		level = new GameLevel(this,gameWidth);
+		level = new GameLevel(this);
 
 		bird = new Bird(this, birdMidpoint, gameHeight, birdDiameter, maxBirdMovement);	
-		scroller = new ScrollHandler(this, minX, maxX, gameWidth, groundStart, grassSize, spoonSize, spoonHandleWidth, spoonHandleHeight, fallingFruitDiameter);
+		scroller = new ScrollHandler(this, minX, maxX, groundStart, grassSize, spoonSize, spoonHandleWidth, spoonHandleHeight, fallingFruitDiameter);
 		background = new StaticImage(minX,0,maxX,groundStart);
 		yoghurt = new Yoghurt(0,groundStart,gameWidth,gameHeight-groundStart, staticFruitDiameter, minX, maxX);
 		hud = new Hud(this, groundStart, minX, maxX);
-		title = new Title(minX, maxX, gameWidth, gameHeight, spoonSize, spoonHandleWidth, spoonHandleHeight);
+		title = new Title(minX, maxX, gameHeight, spoonSize, spoonHandleWidth, spoonHandleHeight);
 		buttonhandler = new ButtonHandler(this, gameWidth, gameHeight);
-		scoreBoard = new ScoreBoard(this, minX, maxX, gameWidth, gameHeight, fallingFruitDiameter);
+		scoreBoard = new ScoreBoard(this, minX, maxX, gameHeight, fallingFruitDiameter);
 		
 		setState(GameState.MENU);
 	}
@@ -197,7 +197,10 @@ public class GameWorld {
 	}
 
 	public void addScore(int increment) {
-		score += increment;
+		if (level.getLevel()>0) {
+			score += increment;
+		}
+		AssetLoader.coin.play(AssetLoader.volume);
 		level.incProgress();
 	}
 

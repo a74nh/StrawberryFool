@@ -36,16 +36,13 @@ public class GameRenderer {
 	private int gameHeight;
 	
 	private GameWorld myWorld;
-	private GameLevel level;
 
 	private OrthographicCamera cam;
 	private ShapeRenderer shapeRenderer;
 
 	private SpriteBatch batcher;
 
-	private int midPointX;
 	private int midPointY;
-	private int scoreX;
 
 	// Game Objects
 	private Bird bird;
@@ -59,7 +56,7 @@ public class GameRenderer {
 
 	// Game Assets
 	private TextureRegion bg, grassTex, skullUp, skullDown, bar,
-			zbLogo, noStar, forkup, forkdown, yoghurtImage ;
+			noStar, forkup, forkdown, yoghurtImage ;
 	private Animation fingerAnimation;
 	private Fruit[] fruit;
 
@@ -70,25 +67,16 @@ public class GameRenderer {
 	// Buttons
 	//private List<SimpleButton> menuButtons;
 	private Color transitionColor;
-	private final int minX;
-	private final int maxX;
 
 
-	public GameRenderer(GameWorld world, int gameWidth, int gameHeight, int minX, int maxX) {
+	public GameRenderer(GameWorld world, int gameWidth, int gameHeight) {
 		
 		this.gameWidth=gameWidth;
 		this.gameHeight=gameHeight;
-		this.minX=minX;
-		this.maxX=maxX;
 		myWorld = world;
-		level = world.getLevel();
 
-		midPointX= gameWidth/2;
 		midPointY = gameHeight/2;
-		scoreX = (gameWidth/10) * 9;
 		
-		//this.menuButtons = ((InputHandler) Gdx.input.getInputProcessor()).getMenuButtons();
-
 		cam = new OrthographicCamera();
 		cam.setToOrtho(true, gameWidth, gameHeight);
 
@@ -121,7 +109,6 @@ public class GameRenderer {
 		skullUp = AssetLoader.skullUp;
 		skullDown = AssetLoader.skullDown;
 		bar = AssetLoader.bar;
-		zbLogo = AssetLoader.zbLogo;
 		noStar = AssetLoader.noStar;
 		forkup = AssetLoader.forkup;
 		forkdown = AssetLoader.forkdown;
@@ -197,13 +184,16 @@ public class GameRenderer {
 
 		
 		//COLLISIONS VIEW
-		if(view_collisions ) {
+		if(view_collisions) {
 			shapeRenderer.begin(ShapeType.Filled);
 			Gdx.gl.glEnable(GL20.GL_BLEND);
 			shapeRenderer.setColor(125 / 255.0f, 125 / 255.0f, 125 / 255.0f, 0.5f);
 			
 			switch(myWorld.getState()) {
 			case RUNNING:
+			case GAMEOVER:
+			case HIGHSCORE:
+			case PAUSED:
 				scroller.drawCollisions(shapeRenderer);
 				break;
 				

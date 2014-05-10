@@ -10,8 +10,6 @@ public class Title {
 
 	private final int MAX_FINGER_DISPLAYS = 2;
 	
-	private final int gameWidth;
-	private final int gameHeight;
 	private Spoon spoon;
 	private StaticImage finger;
 	private int fingerDisplayed;
@@ -19,9 +17,7 @@ public class Title {
 
 	final private int titleY;
 	
-	public Title(int grassLeftStart, int grassRightStart, int gameWidth, int gameHeight, int spoonSize, int spoonHeadWidth, int spoonHeadHeight) {
-		this.gameWidth=gameWidth;
-		this.gameHeight=gameHeight;
+	public Title(int grassLeftStart, int grassRightStart, int gameHeight, int spoonSize, int spoonHeadWidth, int spoonHeadHeight) {
 		
 		final int spoonY = (gameHeight/2) - 50;
 		

@@ -1,12 +1,9 @@
 package com.sleepware.GameObjects;
 
-import java.util.Random;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -22,8 +19,6 @@ public class SpoonHead {
 	private final int barHeight;
 	private final int barYOffset;
 	private final boolean invertX;
-
-	private boolean isBar;
 
 
 	public SpoonHead(int headWidth, int headHeight, int barWidth, int barHeight, boolean invertX) {
@@ -42,14 +37,24 @@ public class SpoonHead {
 		
 	}
 	
-	public void updateBoundingBoxes(float x, float y) {
+	public void updateBoundingBoxes(float x, float y, boolean isFork) {
 		
 		imageRect.set(x, 
 				y, 
 				headWidth, 
 				headHeight);
-						
-		if(invertX) {
+		
+		if(isFork) {
+			collisonRect.set(x, 
+					y, 
+					headWidth, 
+					headHeight);
+			
+			collisonEllipse1.set(0,0,0); 
+			collisonEllipse2.set(0,0,0); 
+			
+		}
+		else if(invertX) {
 
 			final float baseX = x+headWidth-barWidth;
 			
@@ -97,15 +102,6 @@ public class SpoonHead {
 	
 	public void draw(SpriteBatch batcher, TextureRegion normalTexture) {
 		batcher.draw(normalTexture, imageRect.x,imageRect.y,imageRect.width,imageRect.height);
-	}
-	
-
-	public void setIsBar(boolean state) {
-		isBar=state;
-	}
-
-	public boolean getIsBar() {
-		return isBar;
 	}
 
 	public void drawCollisions(ShapeRenderer shapeRenderer) {

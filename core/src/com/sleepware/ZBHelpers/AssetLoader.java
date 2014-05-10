@@ -153,6 +153,9 @@ public class AssetLoader {
 		if (!prefs.contains("sound")) {
 			prefs.putBoolean("sound", true);
 		}
+		if (!prefs.contains("collisions")) {
+			prefs.putBoolean("collisions", true);
+		}
 		if(getSound()) volume=1; else volume=0;
 	}
 
@@ -184,6 +187,16 @@ public class AssetLoader {
 		return prefs.getBoolean("sound");
 	}
 	
+	public static void setCollisions(boolean val) {
+		prefs.putBoolean("collisions", val);
+		prefs.flush();
+	}
+
+	public static boolean getCollisions() {
+		return prefs.getBoolean("collisions");
+	}
+
+	
 	public static void dispose() {
 		// We must dispose of the texture when we are finished.
 		logoTexture.dispose();
@@ -212,6 +225,7 @@ public class AssetLoader {
 	public static float getLineHeight() {
 		return font.getLineHeight();
 	}
+
 
 	
 }

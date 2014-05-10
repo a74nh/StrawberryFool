@@ -7,11 +7,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import com.sleepware.ZBHelpers.AssetLoader;
 
 public class Spoon extends Scrollable {
 
-	private final boolean COLLISION_DETECTION = true;
-	//private final boolean COLLISION_DETECTION = false;
 	
 	public enum Collides {
 		NONE, LEFT, RIGHT;
@@ -25,12 +24,12 @@ public class Spoon extends Scrollable {
 	private SpoonHead headL, headR;
 	
 	private int middle_gap;
-	private int headWidth;
-	private int headHeight;
+	private final int headWidth;
+	private final int headHeight;
 	private int barHeight;
 
-	private int minX;
-	private int maxX;
+	private final int minX;
+	private final int maxX;
 	private int destination;
 
 	private boolean isScored = false;
@@ -38,9 +37,11 @@ public class Spoon extends Scrollable {
 	private boolean isBar;
 
 	private boolean caughtFruit;
-	private int additionalCaughtGap;
+	private float additionalCaughtGap;
 
 	private int deathVelocity;
+
+	private boolean collisions;
 
 	
 	public Spoon(float y, int barHeight, int headWidth, int headHeight, int minX, int maxX, float velocityMultiplier) {
@@ -82,10 +83,10 @@ public class Spoon extends Scrollable {
 				barHeight);
 		
 		headL.updateBoundingBoxes(width - headWidth - additionalCaughtGap,
-				position.y - ((headHeight - barHeight) / 2));
+				position.y - ((headHeight - barHeight) / 2), isBar);
 		
 		headR.updateBoundingBoxes(barRightXPosition,
-				position.y - ((headHeight - barHeight) / 2));
+				position.y - ((headHeight - barHeight) / 2), isBar);
 
 	}
 
@@ -124,6 +125,7 @@ public class Spoon extends Scrollable {
 		isBar=false;
 		caughtFruit=false;
 		additionalCaughtGap=0;
+		collisions=AssetLoader.getCollisions();
 	}
 
 	@Override
@@ -133,7 +135,7 @@ public class Spoon extends Scrollable {
 
 
 	public Collides collides(Bird bird) {
-		if (COLLISION_DETECTION && position.x < bird.getX() + bird.getDiameter()) {
+		if (collisions && position.x < bird.getX() + bird.getDiameter()) {
 			
 			if (Intersector.overlaps(bird.getBoundingCircle(), barLeft) ||
 				headL.collides(bird)) {

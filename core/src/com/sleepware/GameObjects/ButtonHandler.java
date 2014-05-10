@@ -115,11 +115,7 @@ public class ButtonHandler {
 		addButton("SOUND", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
-				if(AssetLoader.getSound()) {
-					AssetLoader.setSound(false);
-				} else {
-					AssetLoader.setSound(true);
-				}
+				AssetLoader.setSound(!AssetLoader.getSound());
 				world.getButtonhandler().onStateChange();
 			}
 
@@ -157,6 +153,39 @@ public class ButtonHandler {
 
 			@Override
 			public void onStateChange(SimpleButton button) {				
+			}
+		});
+		
+		
+		buttonY+= BUTTON_HEIGHT + 5;
+		addButton("COLLISIONS", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
+			@Override
+			public void onClick(SimpleButton button, GameWorld world) {
+				AssetLoader.setCollisions(!AssetLoader.getCollisions());
+				world.getButtonhandler().onStateChange();
+			}
+
+			@Override
+			public void onStateChange(SimpleButton button) {
+			}
+		});
+
+		
+		addLabel("ON", (gameWidth / 2) + 100, buttonY, GameState.OPTIONS, new ActionFunction() {
+			String on="ON";
+			String off="OFF";
+			
+			@Override
+			public void onClick(SimpleButton button, GameWorld world) {
+			}
+
+			@Override
+			public void onStateChange(SimpleButton button) {
+				if(AssetLoader.getCollisions()) {
+					button.setTitle(on);
+				} else {
+					button.setTitle(off);
+				}
 			}
 		});
 		
@@ -259,6 +288,7 @@ public class ButtonHandler {
 			if(menuButton.getGameState()==myWorld.getState()) {
 				if(menuButton.isTouchUp(screenX, screenY)) {
 					menuButton.doAction(myWorld);
+					AssetLoader.flap.play(AssetLoader.volume);
 					return true;
 				}
 			}

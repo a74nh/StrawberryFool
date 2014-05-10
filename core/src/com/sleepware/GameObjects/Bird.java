@@ -125,6 +125,7 @@ public class Bird {
     	
 		previousX = position.x;
 
+		//Movement
 		switch(levelState) {
 		case NORMAL:
 		case FINISHING_LEVEL:
@@ -134,7 +135,8 @@ public class Bird {
 		default:
 			break;
 		}
-		    			
+		    		
+		//Additional spin
 		switch(levelState) {
 
 		case FINISHING_LEVEL:

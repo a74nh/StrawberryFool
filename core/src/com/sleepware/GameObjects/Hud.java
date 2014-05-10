@@ -1,6 +1,5 @@
 package com.sleepware.GameObjects;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.sleepware.GameWorld.GameLevel;
 import com.sleepware.GameWorld.GameWorld;

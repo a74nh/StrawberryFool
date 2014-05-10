@@ -10,8 +10,7 @@ public class ScoreBoard {
 	public static final int NUMBER_OF_FALLING_FRUIT = 5;
 	
 	private GameWorld gameWorld;
-	private final int gameWidth;
-	private final int gameHeight;
+	private final int groundStart;
 	private int grassLeftStart;
 
 	private FallingScore[] fallingFruit;
@@ -26,13 +25,11 @@ public class ScoreBoard {
 	public ScoreBoard(GameWorld gameWorld, 
 			int grassLeftStart, 
 			int grassRightStart, 
-			int gameWidth, 
-			int gameHeight, //Actually this is where the ground starts
+			int groundStart,
 			int fruitDiameter) {
 		
 		this.gameWorld = gameWorld;
-		this.gameWidth = gameWidth;
-		this.gameHeight = gameHeight;
+		this.groundStart = groundStart;
 		this.grassLeftStart = grassLeftStart;		
 		
 		fallingFruit = new FallingScore[NUMBER_OF_FALLING_FRUIT];
@@ -41,13 +38,13 @@ public class ScoreBoard {
 		
 		for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++)
 		{
-			fallingFruit[i] = new FallingScore(fruitDiameter,fruitDiameter, (gameHeight/2), (grassLeftStart+(i*gap)+40), 1);
+			fallingFruit[i] = new FallingScore(fruitDiameter,fruitDiameter, (groundStart/2), (grassLeftStart+(i*gap)+40), 1);
 		}
 		
 		staticImage = new StaticImage[NUMBER_OF_FALLING_FRUIT];
 		
 		for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++) {
-			staticImage[i] = new StaticImage((grassLeftStart+(i*gap)+40)+(fruitDiameter/4), (gameHeight/2)+(fruitDiameter/4), fruitDiameter/2, fruitDiameter/2);
+			staticImage[i] = new StaticImage((grassLeftStart+(i*gap)+40)+(fruitDiameter/4), (groundStart/2)+(fruitDiameter/4), fruitDiameter/2, fruitDiameter/2);
 		}
 
 		
@@ -73,19 +70,19 @@ public class ScoreBoard {
 
 		final int x = grassLeftStart + 40;
 		
-		AssetLoader.drawText(batcher,"GAMEOVER", x, (gameHeight/2) - 150 );
+		AssetLoader.drawText(batcher,"GAMEOVER", x, (groundStart/2) - 150 );
 
-		AssetLoader.drawText(batcher,"SCORE :   "+gameWorld.getScore(), x, (gameHeight/2) - 100 );
+		AssetLoader.drawText(batcher,"SCORE :   "+gameWorld.getScore(), x, (groundStart/2) - 100 );
 
 		if(highscore) {
-			AssetLoader.drawText(batcher,"NEW HIGHSCORE !", x, (gameHeight/2) - 80 );
+			AssetLoader.drawText(batcher,"NEW HIGHSCORE !", x, (groundStart/2) - 80 );
 		} else {
-			AssetLoader.drawText(batcher,"HIGHSCORE :   "+AssetLoader.getHighScore(), x, (gameHeight/2) -80 );
+			AssetLoader.drawText(batcher,"HIGHSCORE :   "+AssetLoader.getHighScore(), x, (groundStart/2) -80 );
 		}
 
-		AssetLoader.drawText(batcher,"RATING :", x, (gameHeight/2) - 20 );
+		AssetLoader.drawText(batcher,"RATING :", x, (groundStart/2) - 20 );
 
-		AssetLoader.drawText(batcher,"RETRY  ?", x, (gameHeight/2) + 100 );
+		AssetLoader.drawText(batcher,"RETRY  ?", x, (groundStart/2) + 100 );
 
 		for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++)
 		{
