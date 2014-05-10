@@ -1,6 +1,7 @@
 package com.sleepware.GameObjects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.sleepware.GameWorld.GameLevel;
 import com.sleepware.GameWorld.GameWorld;
 import com.sleepware.ZBHelpers.AssetLoader;
@@ -14,6 +15,9 @@ public class Hud {
 	final private int minX;
 	final private int maxX;
 	final private int middle;
+	
+	private final String levelString;
+	private final int levelStringX;
 
 
 	public Hud (GameWorld gameWorld, int y, int minX, int maxX) {
@@ -21,50 +25,52 @@ public class Hud {
 		this.level=gameWorld.getLevel();
 		this.minX=minX;
 		this.maxX=maxX;
-		int fontHeight=(int)AssetLoader.getLineHeight();
-		this.y1 = y + (3*(fontHeight));
-		this.y2 = y + (2*(fontHeight));
+		int fontHeight=(int)AssetLoader.buttonFont.getLineHeight();
+		this.y1 = y + (4*(fontHeight));
+		this.y2 = y + (3*(fontHeight)) + 5;
 		this.middle=((maxX-minX)/2)+minX;
+		
+		levelString = "Level";
+		TextBounds textBounds = AssetLoader.buttonFont.getBounds(levelString);
+		levelStringX = maxX - 10 - (int)textBounds.width;
+
 	}
 	
 
 	private void drawScore(SpriteBatch batcher) {
 		
-		AssetLoader.drawText(batcher,
+		AssetLoader.drawButtonText(batcher,
 				"Score",
 				minX+10,
 				y1);
 
-		AssetLoader.drawText(batcher,
+		AssetLoader.drawButtonText(batcher,
 				"" + gameWorld.getScore(),
 				minX+10,
 				y2 );
 	}
 
-	private void drawLevel(SpriteBatch batcher) {
+	private void drawLevel(SpriteBatch batcher) {	
 		
-		String s = "Level";
-		int length = s.length();
-
-		AssetLoader.drawText(batcher,
-				s,
-				maxX -10  - (8 * length),
+		AssetLoader.drawButtonText(batcher,
+				levelString,
+				levelStringX,
 				y1);
 
-		AssetLoader.drawText(batcher,
+		AssetLoader.drawButtonText(batcher,
 				"" + level.getLevel(),
-				maxX -10  - (8 * length),
+				levelStringX,
 				y2);
 	}
 
 	private void drawFPS(SpriteBatch batcher, float delta) {
 		
-		AssetLoader.drawText(batcher,
+		AssetLoader.drawButtonText(batcher,
 				"FPS",
 				middle,
 				y1);
 
-		AssetLoader.drawText(batcher,
+		AssetLoader.drawButtonText(batcher,
 				"" + (int)(1/delta),
 				middle,
 				y2);

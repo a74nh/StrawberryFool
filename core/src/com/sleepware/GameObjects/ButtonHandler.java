@@ -158,7 +158,7 @@ public class ButtonHandler {
 		
 		
 		buttonY+= BUTTON_HEIGHT + 20;
-		addButton("Collisions", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
+		addButton("Cheat", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
 				AssetLoader.setCollisions(!AssetLoader.getCollisions());
@@ -182,9 +182,9 @@ public class ButtonHandler {
 			@Override
 			public void onStateChange(SimpleButton button) {
 				if(AssetLoader.getCollisions()) {
-					button.setTitle(on);
-				} else {
 					button.setTitle(off);
+				} else {
+					button.setTitle(on);
 				}
 			}
 		});
@@ -195,7 +195,7 @@ public class ButtonHandler {
 		/*************************************************************************/
 				
 		buttonY = (gameHeight/10)*4;
-		addButton("CONTINUE", (gameWidth / 2), buttonY, GameState.PAUSED, new ActionFunction() {
+		addButton("Continue", (gameWidth / 2), buttonY, GameState.PAUSED, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
 				world.unpause();
@@ -207,7 +207,7 @@ public class ButtonHandler {
 		});
 				
 		buttonY+= BUTTON_HEIGHT + 5;
-		addButton("QUIT", (gameWidth / 2), buttonY, GameState.PAUSED, new ActionFunction() {
+		addButton("Quit", (gameWidth / 2), buttonY, GameState.PAUSED, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
 				world.quitToMenu();
@@ -224,7 +224,7 @@ public class ButtonHandler {
 		/*************************************************************************/
 				
 		buttonY = (gameHeight/10)*4;
-		addLabel("READY . . .", (gameWidth / 2), buttonY, GameState.READY, null);
+		addLabel("READY...", (gameWidth / 2), buttonY, GameState.READY, null);
 		
 	}
 		

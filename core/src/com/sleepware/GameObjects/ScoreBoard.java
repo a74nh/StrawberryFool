@@ -69,20 +69,24 @@ public class ScoreBoard {
 	public void draw(SpriteBatch batcher, Fruit[] fruit, TextureRegion star) {
 
 		final int x = grassLeftStart + 40;
+		final int xScore = x + 120;
 		
-		AssetLoader.drawText(batcher,"GAMEOVER", x, (groundStart/2) - 150 );
+		AssetLoader.drawButtonText(batcher,"GAMEOVER", x, (groundStart/2) - 150 );
 
-		AssetLoader.drawText(batcher,"SCORE :   "+gameWorld.getScore(), x, (groundStart/2) - 100 );
+		AssetLoader.drawButtonText(batcher,"SCORE:", x, (groundStart/2) - 100 );
+		AssetLoader.drawButtonText(batcher,""+gameWorld.getScore(), xScore, (groundStart/2) - 100 );
 
 		if(highscore) {
-			AssetLoader.drawText(batcher,"NEW HIGHSCORE !", x, (groundStart/2) - 80 );
+			AssetLoader.drawButtonText(batcher,"NEW HIGHSCORE!", x, (groundStart/2) - 80 );
+			
 		} else {
-			AssetLoader.drawText(batcher,"HIGHSCORE :   "+AssetLoader.getHighScore(), x, (groundStart/2) -80 );
+			AssetLoader.drawButtonText(batcher,"HIGHSCORE:", x, (groundStart/2) -80 );
+			AssetLoader.drawButtonText(batcher,""+AssetLoader.getHighScore(), xScore, (groundStart/2) -80 );
 		}
 
-		AssetLoader.drawText(batcher,"RATING :", x, (groundStart/2) - 20 );
+		AssetLoader.drawButtonText(batcher,"RATING:", x, (groundStart/2) - 20 );
 
-		AssetLoader.drawText(batcher,"RETRY  ?", x, (groundStart/2) + 100 );
+		AssetLoader.drawButtonText(batcher,"RETRY ?", x, (groundStart/2) + 100 );
 
 		for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++)
 		{

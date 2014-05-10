@@ -61,7 +61,7 @@ public class SimpleButton {
 			if(buttonUp!=null)
 				batcher.draw(buttonUp, x, y, width, height);
 		}
-		AssetLoader.drawText(batcher,title,x+5,y+5);
+		AssetLoader.drawButtonText(batcher,title,x+5,y+3);
 	}
 
 	public boolean isTouchDown(int screenX, int screenY) {

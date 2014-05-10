@@ -35,8 +35,7 @@ public class AssetLoader {
 	public static TextureRegion[] buttons;
 
 	public static Sound dead, flap, coin, fall;
-	private static BitmapFont font, shadow;
-	public static BitmapFont titleFont;
+	public static BitmapFont buttonFont, titleFont;
 	private static Preferences prefs;
 
 	public static float volume;
@@ -158,16 +157,13 @@ public class AssetLoader {
 		/* FONTS */
 		/*********************************************************************/
 		
-		font = new BitmapFont(Gdx.files.internal("runningshoefont.fnt"));
-		font.setScale(.18f, -.18f);
-		font.setColor(0.1f, 0.1f, 0.5f, 1);
+		buttonFont = new BitmapFont(Gdx.files.internal("treasure.fnt"));
+		buttonFont.setScale(.16f, -.16f);
+		buttonFont.setColor(0.0f, 0.5f, 0.0f, 1);
 
 		titleFont = new BitmapFont(Gdx.files.internal("dreamfont.fnt"));
 		titleFont.setScale(.5f, -.5f);
 
-		//shadow = new BitmapFont(Gdx.files.internal("americanstripe.fnt"));
-		//shadow.setScale(.19f, -.19f);
-		//shadow.setColor(Color.BLACK);
 		
 		/*********************************************************************/
 		/* PREFERENCES */
@@ -243,8 +239,8 @@ public class AssetLoader {
 		flap.dispose();
 		coin.dispose();
 
-		font.dispose();
-		shadow.dispose();
+		buttonFont.dispose();
+		titleFont.dispose();
 	}
 
 	public static void drawTitle(SpriteBatch batcher, String s, int x, int y, float colour) {
@@ -254,13 +250,12 @@ public class AssetLoader {
 		titleFont.draw(batcher, s, x, y);
 	}
 	
-	public static void drawText(SpriteBatch batcher, String s, int x, int y) {
-		//shadow.draw(batcher, s, x, y-2);
-		font.draw(batcher, s, x, y);
+	public static void drawButtonText(SpriteBatch batcher, String s, int x, int y) {
+		buttonFont.draw(batcher, s, x, y);
 	}
 	
 	public static float getLineHeight() {
-		return font.getLineHeight();
+		return buttonFont.getLineHeight();
 	}
 
 
