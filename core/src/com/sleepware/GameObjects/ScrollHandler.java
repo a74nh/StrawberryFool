@@ -19,7 +19,7 @@ public class ScrollHandler {
 
 	private Scrollable[][] candywall;
 	private Spoon[] spoon;
-	private Falling[] fallingFruit;
+	private FallingBackgroundFruit[] fallingFruit;
 
 	private GameWorld gameWorld;
 	private final float groundStart;
@@ -80,13 +80,13 @@ public class ScrollHandler {
 		spoon[0].setLeader(spoon[NUMBER_OF_SPOONS-1],pipeGap);
 
 		
-		fallingFruit = new Falling[NUMBER_OF_FALLING_FRUIT];
+		fallingFruit = new FallingBackgroundFruit[NUMBER_OF_FALLING_FRUIT];
 
 		final float offset = (grassRightStart-grassLeftStart)/NUMBER_OF_FALLING_FRUIT;
 		
 		for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++)
 		{
-			fallingFruit[i] = new Falling(fruitDiameter,fruitDiameter,(int) groundStart, (int)(grassLeftStart+(i*offset)), (int)(grassLeftStart+((i+1)*offset)),1);
+			fallingFruit[i] = new FallingBackgroundFruit(fruitDiameter,(int) groundStart, (int)(grassLeftStart+(i*offset)), (int)(grassLeftStart+((i+1)*offset)),1);
 		}
 		
 		onRestart();

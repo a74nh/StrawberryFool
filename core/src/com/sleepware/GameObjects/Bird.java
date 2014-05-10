@@ -3,6 +3,7 @@ package com.sleepware.GameObjects;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.sleepware.GameObjects.Spoon.Collides;
@@ -17,7 +18,6 @@ public class Bird {
 		NORMAL, FINISHING_LEVEL, SPIN
 	}
 
-	//private GameWorld gameWorld;
 	private GameLevel level;
 
 	//Keep our own runtime to prevent sudden movement jumps
@@ -54,7 +54,6 @@ public class Bird {
 	private int fruitValue;
 	
 	public Bird(GameWorld gameWorld, int x, int gameHeight, int diameter, int maxMovement) {
-		//this.gameWorld = gameWorld;
 		level = gameWorld.getLevel();
 		this.diameter = diameter;
 		this.maxMovement=maxMovement;
@@ -186,6 +185,7 @@ public class Bird {
 		position.y = offsetY + level.getBirdYPosition();
 		velocity.x = level.getBirdSpeed();
 		deathVelocity = level.getDeathVelocity();
+		boundingCircle.set(position.x + (diameter/2), position.y +  (diameter/2),  (diameter/2));
 	}
 
 	public void updateReady(float runTime) {
@@ -288,6 +288,10 @@ public class Bird {
 	
 	public int getFruitValue() {
 		return fruitValue;
+	}
+
+	public void drawCollisions(ShapeRenderer shapeRenderer) {
+		shapeRenderer.circle(boundingCircle.x, boundingCircle.y, boundingCircle.radius);	
 	}
 	
 }

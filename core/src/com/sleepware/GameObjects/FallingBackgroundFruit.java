@@ -6,23 +6,25 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.sleepware.ZBHelpers.AssetLoader;
 
 
-public class Falling extends RotatingScrollable {
+public class FallingBackgroundFruit extends RotatingScrollable {
 
 
 	final private int gameHeight;
 	private Random r;
 	final private int minX;
 	final private int maxX;
+	final private int maxDiameter;
 	private int baseYVelocity;
 	private int fruitId;
 
 	
-	public Falling(int width, int height, int gameHeight, int minX, int maxX, float velocityMultiplier) {
-		super(0, 0, width, height, velocityMultiplier);
+	public FallingBackgroundFruit(int maxDiameter, int gameHeight, int minX, int maxX, float velocityMultiplier) {
+		super(0, 0, maxDiameter, maxDiameter, velocityMultiplier);
 		this.gameHeight=gameHeight;
 		r = new Random();
 		this.minX=minX;
 		this.maxX=maxX;
+		this.maxDiameter=maxDiameter;
 		baseYVelocity=1;
 
 		reset(0);
@@ -51,6 +53,9 @@ public class Falling extends RotatingScrollable {
 	public void reset(float newY) {
 		super.reset(newY);
 
+		width = r.nextInt(maxDiameter/3)+(2*maxDiameter/3);
+		height = width;
+		
 		position.x = r.nextInt(maxX-minX-width)+minX;
 
 		velocity.y = r.nextInt(baseYVelocity*3/2) + (baseYVelocity/4);

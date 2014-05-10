@@ -205,7 +205,7 @@ public class GameRenderer {
 				break;
 			}
 			
-			shapeRenderer.circle(bird.getBoundingCircle().x, bird.getBoundingCircle().y, bird.getBoundingCircle().radius);
+			bird.drawCollisions(shapeRenderer);
 			shapeRenderer.end();
 		}
 		
