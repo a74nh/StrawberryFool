@@ -76,11 +76,12 @@ public class GameWorld {
 		background = new StaticImage(minX,0,maxX,groundStart);
 		yoghurt = new Yoghurt(0,groundStart,gameWidth,gameHeight-groundStart, staticFruitDiameter, minX, maxX);
 		hud = new Hud(this, groundStart, minX, maxX);
-		title = new Title(minX, maxX, gameHeight, spoonSize, spoonHandleWidth, spoonHandleHeight);
+		title = new Title(minX, maxX, gameHeight, spoonSize, spoonHandleWidth, spoonHandleHeight, birdDiameter);
 		buttonhandler = new ButtonHandler(this, gameWidth, gameHeight);
 		scoreBoard = new ScoreBoard(this, minX, maxX, gameHeight, fallingFruitDiameter);
 		
 		setState(GameState.MENU);
+		resetToMenu(false);
 	}
 
 	public void update(float delta) {
@@ -88,12 +89,13 @@ public class GameWorld {
 
 		switch (currentState) {
 		case MENU:
+		case OPTIONS:
 			title.update(delta);
-			//fall through...
+			bird.update(delta);
+			scroller.updateReady(delta);
+			break;
 			
 		case READY:
-		case OPTIONS:
-			bird.updateReady(runTime);
 			scroller.updateReady(delta);
 			break;
 
@@ -240,7 +242,7 @@ public class GameWorld {
 				currentState == GameState.READY ||
 				currentState == GameState.GAMEOVER ||
 				currentState == GameState.HIGHSCORE );
-		reset();
+		resetToMenu(true);
 		setState(GameState.MENU);
 	}
 	
@@ -270,6 +272,14 @@ public class GameWorld {
 		renderer.prepareTransition(0, 0, 0, 1f);
 	}
 	
+	private void resetToMenu(boolean transition) {
+		runTime=0;
+		score = 0;
+		level.onRestart();
+		bird.onRestartTitleScreen();
+		scroller.onRestart();
+		if(transition) renderer.prepareTransition(0, 0, 0, 1f);
+	}
 
 	/**************************************
 	 * STATE QUERY FUNCTIONS

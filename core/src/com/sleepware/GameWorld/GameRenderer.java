@@ -29,7 +29,7 @@ import com.sleepware.ZBHelpers.AssetLoader;
 
 public class GameRenderer {
 	
-	private final boolean view_collisions = true;
+	private final boolean view_collisions = false;
 
 	
 	private int gameWidth;
@@ -106,12 +106,12 @@ public class GameRenderer {
 	private void initAssets() {
 		bg = AssetLoader.backgroundImage;
 		grassTex = AssetLoader.grass;
-		skullUp = AssetLoader.skullUp;
-		skullDown = AssetLoader.skullDown;
+		skullUp = AssetLoader.spoonHeadLeftImg;
+		skullDown = AssetLoader.spoonHeadRightImg;
 		bar = AssetLoader.bar;
 		noStar = AssetLoader.noStar;
-		forkup = AssetLoader.forkup;
-		forkdown = AssetLoader.forkdown;
+		forkup = AssetLoader.forkHeadLeftImg;
+		forkdown = AssetLoader.forkHeadRightImg;
 		fruit = AssetLoader.fruit;
 		yoghurtImage = AssetLoader.yoghurt;
 		fingerAnimation = AssetLoader.fingerAnimation;

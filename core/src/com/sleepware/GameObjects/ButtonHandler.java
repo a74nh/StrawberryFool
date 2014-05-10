@@ -34,7 +34,7 @@ public class ButtonHandler {
 		/*************************************************************************/
 				
 		int buttonY = topButton;
-		addButton("START", (gameWidth / 2), buttonY, GameState.MENU, new ActionFunction() {
+		addButton("Start", (gameWidth / 2), buttonY, GameState.MENU, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
 				world.ready(GameType.STORY);	
@@ -43,15 +43,15 @@ public class ButtonHandler {
 			@Override
 			public void onStateChange(SimpleButton button) {
 				if(AssetLoader.getHighLevel()>0) {
-					button.setTitle("CONTINUE");
+					button.setTitle("Continue");
 				} else {
-					button.setTitle("START");
+					button.setTitle("Start");
 				}
 			}
 		});
 			
 		buttonY+= BUTTON_HEIGHT + 5;
-		addButton("ARCADE", (gameWidth / 2), buttonY, GameState.MENU, new ActionFunction() {
+		addButton("Arcade", (gameWidth / 2), buttonY, GameState.MENU, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
 				world.ready(GameType.ARCADE);	
@@ -64,7 +64,7 @@ public class ButtonHandler {
 		
 				
 		buttonY+= BUTTON_HEIGHT + 5;
-		addButton("OPTIONS", (gameWidth / 2), buttonY, GameState.MENU, new ActionFunction() {
+		addButton("Options", (gameWidth / 2), buttonY, GameState.MENU, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
 				world.options();	
@@ -81,7 +81,7 @@ public class ButtonHandler {
 		/*************************************************************************/
 				
 		buttonY = topButton;
-		addButton("RESET", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
+		addButton("Reset", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
 			
 			private int numClicked = 0;
 			
@@ -90,12 +90,12 @@ public class ButtonHandler {
 				switch(numClicked) {
 				case 0:
 					numClicked++;
-					button.setTitle("CONFIRM?");
+					button.setTitle("Confirm?");
 					break;
 					
 				case 1:
 					numClicked++;
-					button.setTitle("CLEARED");	
+					button.setTitle("Cleared");	
 					AssetLoader.setHighScore(0);
 					AssetLoader.setHighLevel(0);
 				
@@ -107,12 +107,12 @@ public class ButtonHandler {
 			@Override
 			public void onStateChange(SimpleButton button) {
 				numClicked=0;
-				button.setTitle("RESET");
+				button.setTitle("Reset");
 			}
 		});
 				
 		buttonY+= BUTTON_HEIGHT + 5;
-		addButton("SOUND", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
+		addButton("Sound", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
 				AssetLoader.setSound(!AssetLoader.getSound());
@@ -145,7 +145,7 @@ public class ButtonHandler {
 		
 		
 		buttonY+= BUTTON_HEIGHT + 5;
-		addButton("BACK", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
+		addButton("Back", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
 				world.quitOptions();	
@@ -157,8 +157,8 @@ public class ButtonHandler {
 		});
 		
 		
-		buttonY+= BUTTON_HEIGHT + 5;
-		addButton("COLLISIONS", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
+		buttonY+= BUTTON_HEIGHT + 20;
+		addButton("Collisions", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
 				AssetLoader.setCollisions(!AssetLoader.getCollisions());

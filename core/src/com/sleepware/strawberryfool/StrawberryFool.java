@@ -2,6 +2,7 @@ package com.sleepware.strawberryfool;
 
 import com.badlogic.gdx.Game;
 import com.sleepware.Screens.GameScreen;
+import com.sleepware.Screens.SplashScreen;
 import com.sleepware.ZBHelpers.AssetLoader;
 
 

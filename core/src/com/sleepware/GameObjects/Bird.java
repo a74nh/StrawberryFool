@@ -15,9 +15,10 @@ import com.sleepware.ZBHelpers.AssetLoader;
 public class Bird {
 
 	private enum LevelState {
-		NORMAL, FINISHING_LEVEL, SPIN
+		NORMAL, FINISHING_LEVEL, SPIN, SPIN_FORVER
 	}
 
+	private GameWorld world;
 	private GameLevel level;
 
 	//Keep our own runtime to prevent sudden movement jumps
@@ -53,7 +54,10 @@ public class Bird {
 
 	private int fruitValue;
 	
+	private int foreverDirection;
+	
 	public Bird(GameWorld gameWorld, int x, int gameHeight, int diameter, int maxMovement) {
+		world = gameWorld;
 		level = gameWorld.getLevel();
 		this.diameter = diameter;
 		this.maxMovement=maxMovement;
@@ -130,7 +134,6 @@ public class Bird {
 		case FINISHING_LEVEL:
 			move(delta);
 			break;
-		case SPIN:
 		default:
 			break;
 		}
@@ -155,13 +158,26 @@ public class Bird {
 			remainingSpin -= newrotation;
 			rotation += newrotation;
 			
-			
 			if(remainingSpin<=0) {
 				remainingSpin=0;
 				levelState=LevelState.NORMAL;
 				runTime=0;
 				setLevelAttributes();
 			}
+			break;
+		
+		case SPIN_FORVER:
+			
+			final float newrotation2 =  480 * delta;
+			
+			remainingSpin -= newrotation2;
+			rotation += newrotation2*foreverDirection;
+			
+			if(remainingSpin<=0) {
+				remainingSpin=720;
+				foreverDirection *=-1;
+			}
+
 			break;
 			
 		default:
@@ -188,8 +204,6 @@ public class Bird {
 		boundingCircle.set(position.x + (diameter/2), position.y +  (diameter/2),  (diameter/2));
 	}
 
-	public void updateReady(float runTime) {
-	}
 	
 	public void dying(Collides collision) {
 		isAlive = false;
@@ -213,15 +227,31 @@ public class Bird {
 		velocity.y = 0;
 		isAlive = true;
 		runTime=0;
-		levelState=LevelState.NORMAL;
 		boundingCircle.set(position.x + (diameter/2), position.y +  (diameter/2),  (diameter/2));
-
 		levelState=LevelState.SPIN;
 		remainingSpin = r.nextInt(360) + 360;
 		
 		setLevelAttributes();
 	}
 
+	public void onRestartTitleScreen() {
+		rotation = 0;
+		velocity.x = 0;
+		velocity.y = 0;
+		isAlive = true;
+		runTime=0;
+		levelState=LevelState.SPIN_FORVER;
+		remainingSpin = 720;
+		foreverDirection = 1;
+		
+		birdMotion =  BirdMotion.NONE;
+		position.x = world.getTitle().getTitleFruitX();
+		position.y = world.getTitle().getTitleFruitY() + (diameter/2);
+		
+		deathVelocity = 0;
+		boundingCircle.set(position.x + (diameter/2), position.y +  (diameter/2),  (diameter/2));
+	}
+	
 	public float getX() {
 		return position.x;
 	}

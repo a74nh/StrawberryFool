@@ -3,12 +3,15 @@ package com.sleepware.ZBHelpers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.sleepware.GameObjects.Fruit;
 
 public class AssetLoader {
@@ -17,10 +20,10 @@ public class AssetLoader {
 	public static final int NUMBER_OF_FRUIT= 4;
 	public static final int NUMBER_OF_FINGER_FRAMES= 6;
 
-	private static Texture logoTexture, backgroundTexture, spoonTexture, forkTexture, stripeTexture, yoghurtTexture, crossTexture;
-	public static TextureRegion logo, zbLogo, bg, grass, bird, birdDown,
-			birdUp, skullUp, skullDown, bar, playButtonUp, playButtonDown,
-			noStar, ball1, ball2, ball3, backgroundImage, forkup, forkdown, yoghurt;
+	private static Texture logoTexture, backgroundTexture, spoonTexture, stripeTexture, yoghurtTexture, crossTexture;
+	public static TextureRegion logoImg, zbLogo, bg, grass, bird, birdDown,
+			birdUp, spoonHeadLeftImg, spoonHeadRightImg, bar, playButtonUp, playButtonDown,
+			noStar, ball1, ball2, ball3, backgroundImage, forkHeadLeftImg, forkHeadRightImg, yoghurt;
 	
 	public static Fruit[] fruit;
 
@@ -32,7 +35,8 @@ public class AssetLoader {
 	public static TextureRegion[] buttons;
 
 	public static Sound dead, flap, coin, fall;
-	private static BitmapFont font, shadow, whiteFont;
+	private static BitmapFont font, shadow;
+	public static BitmapFont titleFont;
 	private static Preferences prefs;
 
 	public static float volume;
@@ -40,36 +44,45 @@ public class AssetLoader {
 	
 	public static void load() {
 
-		logoTexture = new Texture(Gdx.files.internal("logo.png"));
+		/*********************************************************************/
+		/* TEXTURES */
+		/*********************************************************************/
+		
+		logoTexture = new Texture(Gdx.files.internal("sleepwareproductions.png"));
 		logoTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
-		logo = new TextureRegion(logoTexture, 0, 0, 512, 114);
+		logoImg = new TextureRegion(logoTexture, 0, 0, 1024, 1024);
 
-
-		spoonTexture = new Texture(Gdx.files.internal("spoon.png"));
-		forkTexture = new Texture(Gdx.files.internal("fork.png"));
 		
+		spoonTexture = new Texture(Gdx.files.internal("forkandspoon.png"));
+		
+		spoonHeadLeftImg = new TextureRegion(spoonTexture, 79, 90, 172, 85);
+		spoonHeadRightImg = new TextureRegion(spoonHeadLeftImg);
+		spoonHeadRightImg.flip(true, false);
 
-		skullUp = new TextureRegion(spoonTexture, 62, 0, 65, 32);
-		skullDown = new TextureRegion(skullUp);
-		skullDown.flip(true, false);
-
-		bar = new TextureRegion(spoonTexture, 0, 10, 3, 12);
+		bar = new TextureRegion(spoonTexture, 0, 117, 32, 30);
 		bar.flip(false, true);
 		
-		forkup = new TextureRegion(forkTexture, 62, 0, 65, 32);
-		forkdown = new TextureRegion(forkup);
-		forkdown.flip(true, false);		
+		forkHeadLeftImg = new TextureRegion(spoonTexture, 80, 3, 172, 59);
+		forkHeadRightImg = new TextureRegion(forkHeadLeftImg);
+		forkHeadRightImg.flip(true, false);		
 		
-		fruit = new Fruit[NUMBER_OF_FRUIT];
+		/*
+		spoonTexture = new Texture(Gdx.files.internal("forkandspoon2.png"));
 		
+		spoonHeadLeftImg = new TextureRegion(spoonTexture, 406, 181, 408, 225);
+		spoonHeadRightImg = new TextureRegion(spoonHeadLeftImg);
+		spoonHeadRightImg.flip(true, false);
+
+		bar = new TextureRegion(spoonTexture, 297, 272, 97, 41);
+		bar.flip(false, true);
 		
-		fruit[0] = new Fruit("strawberry");
-		fruit[1] = new Fruit("apple");
-		fruit[2] = new Fruit("lemon");
-		fruit[3] = new Fruit("grapes");
+		forkHeadLeftImg = new TextureRegion(spoonTexture, 80, 3, 172, 59);
+		forkHeadRightImg = new TextureRegion(forkHeadLeftImg);
+		forkHeadRightImg.flip(true, false);		
+		*/
 		
-	
+
 		buttons = new TextureRegion[2];
 
 		buttonsTexture = new Texture(Gdx.files.internal("clearbuttons.png"));
@@ -92,14 +105,7 @@ public class AssetLoader {
 		finger[3]=finger[1];
 		finger[4]=finger[0];
 		finger[5]=finger[0];
-		/*
-		finger[5]=finger[1];
-		finger[6]=finger[2];
-		finger[7]=finger[1];
-		finger[8]=finger[0];
-		finger[9]=finger[0];
-		finger[10]=finger[0];
-		*/
+
 		fingerAnimation = new Animation(0.13f, finger);
 		fingerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		
@@ -126,21 +132,47 @@ public class AssetLoader {
 		
 		crossTexture = new Texture(Gdx.files.internal("cross.png"));
 		noStar = new TextureRegion(crossTexture, 0, 0, 64, 64);
+
+		/*********************************************************************/
+		/* FRUIT */
+		/*********************************************************************/
+
+		fruit = new Fruit[NUMBER_OF_FRUIT];
+		
+		fruit[0] = new Fruit("strawberry", 1f, 0.3f, 0.3f);
+		fruit[1] = new Fruit("apple", 0.3f, 1f, 0.3f);
+		fruit[2] = new Fruit("lemon", 1f, 1f, 0.3f);
+		fruit[3] = new Fruit("grapes", 0.3f, 1f, 0.3f);
+		
+	
+		/*********************************************************************/
+		/* AUDIO */
+		/*********************************************************************/
 		
 		dead = Gdx.audio.newSound(Gdx.files.internal("dead.wav"));
 		flap = Gdx.audio.newSound(Gdx.files.internal("flap.wav"));
 		coin = Gdx.audio.newSound(Gdx.files.internal("coin.wav"));
 		fall = Gdx.audio.newSound(Gdx.files.internal("fall.wav"));
 
-		font = new BitmapFont(Gdx.files.internal("gianthead.fnt"));
-		font.setScale(.25f, -.25f);
+		/*********************************************************************/
+		/* FONTS */
+		/*********************************************************************/
+		
+		font = new BitmapFont(Gdx.files.internal("runningshoefont.fnt"));
+		font.setScale(.18f, -.18f);
+		font.setColor(0.1f, 0.1f, 0.5f, 1);
 
-		whiteFont = new BitmapFont(Gdx.files.internal("whitetext.fnt"));
-		whiteFont.setScale(.1f, -.1f);
+		titleFont = new BitmapFont(Gdx.files.internal("dreamfont.fnt"));
+		titleFont.setScale(.5f, -.5f);
 
-		shadow = new BitmapFont(Gdx.files.internal("gianthead_shadow.fnt"));
-		shadow.setScale(.25f, -.25f);
-
+		//shadow = new BitmapFont(Gdx.files.internal("americanstripe.fnt"));
+		//shadow.setScale(.19f, -.19f);
+		//shadow.setColor(Color.BLACK);
+		
+		/*********************************************************************/
+		/* PREFERENCES */
+		/*********************************************************************/
+		
 		// Create (or retrieve existing) preferences file
 		prefs = Gdx.app.getPreferences("StrawberryFool");
 
@@ -202,7 +234,6 @@ public class AssetLoader {
 		logoTexture.dispose();
 		backgroundTexture.dispose();
 		spoonTexture.dispose();
-		forkTexture.dispose();
 		stripeTexture.dispose();
 		yoghurtTexture.dispose();
 		crossTexture.dispose();
@@ -216,9 +247,15 @@ public class AssetLoader {
 		shadow.dispose();
 	}
 
+	public static void drawTitle(SpriteBatch batcher, String s, int x, int y, float colour) {
+				
+		titleFont.setColor(colour);
+
+		titleFont.draw(batcher, s, x, y);
+	}
 	
 	public static void drawText(SpriteBatch batcher, String s, int x, int y) {
-		shadow.draw(batcher, s, x, y-2);
+		//shadow.draw(batcher, s, x, y-2);
 		font.draw(batcher, s, x, y);
 	}
 	

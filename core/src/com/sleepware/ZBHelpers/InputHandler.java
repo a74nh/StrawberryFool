@@ -49,10 +49,10 @@ public class InputHandler implements InputProcessor {
 			break;
 			
 		case PAUSED:
-		case OPTIONS:
 			return buttonhandler.touchDown(screenX, screenY);
 			
 		case MENU:
+		case OPTIONS:
 			if(buttonhandler.touchDown(screenX, screenY)) {
 				return true;
 			}
