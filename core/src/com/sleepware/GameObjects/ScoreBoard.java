@@ -71,20 +71,21 @@ public class ScoreBoard {
 		final int x = grassLeftStart + 40;
 		final int xScore = x + 120;
 		
-		AssetLoader.drawButtonText(batcher,"GAMEOVER", x, (groundStart/2) - 150 );
+		AssetLoader.drawButtonText(batcher,"GAMEOVER", x, (groundStart/2) - 160 );
 
-		AssetLoader.drawButtonText(batcher,"SCORE:", x, (groundStart/2) - 100 );
+		AssetLoader.drawButtonText(batcher,"SCORE", x, (groundStart/2) - 100 );
 		AssetLoader.drawButtonText(batcher,""+gameWorld.getScore(), xScore, (groundStart/2) - 100 );
 
+		final int highscoreY = (groundStart/2) - 75;
 		if(highscore) {
-			AssetLoader.drawButtonText(batcher,"NEW HIGHSCORE!", x, (groundStart/2) - 80 );
+			AssetLoader.drawButtonText(batcher,"NEW HIGHSCORE!", x, highscoreY );
 			
 		} else {
-			AssetLoader.drawButtonText(batcher,"HIGHSCORE:", x, (groundStart/2) -80 );
-			AssetLoader.drawButtonText(batcher,""+AssetLoader.getHighScore(), xScore, (groundStart/2) -80 );
+			AssetLoader.drawButtonText(batcher,"HIGHSCORE", x, highscoreY );
+			AssetLoader.drawButtonText(batcher,""+AssetLoader.getHighScore(), xScore, highscoreY );
 		}
 
-		AssetLoader.drawButtonText(batcher,"RATING:", x, (groundStart/2) - 20 );
+		AssetLoader.drawButtonText(batcher,"RATING", x, (groundStart/2) - 25 );
 
 		AssetLoader.drawButtonText(batcher,"RETRY ?", x, (groundStart/2) + 100 );
 

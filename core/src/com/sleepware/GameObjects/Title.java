@@ -43,9 +43,7 @@ public class Title {
 		this.grassLeftStart = grassLeftStart;
 		this.grassRightStart = grassRightStart;
 		
-		int fingerX = grassRightStart - spoon.getWidth();
-
-		finger = new StaticImage(fingerX, spoonY, spoonHeadHeight, spoonHeadHeight);
+		finger = new StaticImage(getNewFingerX(spoon.getWidth()), spoonY, spoonHeadHeight, spoonHeadHeight);
 		fingerDisplayed=0;
 		
 		foolStr = "Fool";
@@ -90,11 +88,18 @@ public class Title {
 		spoon.update(delta);
 	}
 
+	private int getNewFingerX(int screenX) {
+		int fingerX = grassRightStart - screenX;
+			
+		fingerX = Math.max(fingerX, grassLeftStart+3);
+		return Math.min(fingerX, grassRightStart-1-spoon.getWidth());		 
+	}
+	
 	public boolean onClick(int screenX, int screenY) {
 		
 		if (spoon.pointYcollides(screenY)) {
 			spoon.move(screenX);
-			finger.setX(grassRightStart - screenX);
+			finger.setX(getNewFingerX(screenX));
 			fingerDisplayed++;
 			return true;
 		}

@@ -21,7 +21,7 @@ import com.sleepware.GameObjects.ScoreBoard;
 import com.sleepware.GameObjects.ScrollHandler;
 import com.sleepware.GameObjects.StaticImage;
 import com.sleepware.GameObjects.Title;
-import com.sleepware.GameObjects.Yoghurt;
+import com.sleepware.GameObjects.StaticBackgroundFruit;
 import com.sleepware.TweenAccessors.Value;
 import com.sleepware.TweenAccessors.ValueAccessor;
 import com.sleepware.ZBHelpers.AssetLoader;
@@ -30,6 +30,7 @@ import com.sleepware.ZBHelpers.AssetLoader;
 public class GameRenderer {
 	
 	private final boolean view_collisions = false;
+	//private final boolean view_collisions = true;
 
 	
 	private int gameWidth;
@@ -48,7 +49,8 @@ public class GameRenderer {
 	private Bird bird;
 	private ScrollHandler scroller;
 	private StaticImage background;
-	private Yoghurt yoghurt;
+	private StaticImage foreground;
+	private StaticBackgroundFruit staticBackgroundFruit;
 	private Hud hud;
 	private Title title;
 	private ButtonHandler buttonhandler;
@@ -67,6 +69,8 @@ public class GameRenderer {
 	// Buttons
 	//private List<SimpleButton> menuButtons;
 	private Color transitionColor;
+
+
 
 
 	public GameRenderer(GameWorld world, int gameWidth, int gameHeight) {
@@ -96,7 +100,8 @@ public class GameRenderer {
 		bird = myWorld.getBird();
 		scroller = myWorld.getScroller();
 		background = myWorld.getBackground();
-		yoghurt = myWorld.getYoghurt();
+		foreground = myWorld.getForeground();
+		staticBackgroundFruit = myWorld.getYoghurt();
 		hud = myWorld.getHud();
 		title = myWorld.getTitle();
 		buttonhandler = myWorld.getButtonhandler();
@@ -128,7 +133,7 @@ public class GameRenderer {
 
 		// Draw Background colour
 		shapeRenderer.setColor(55 / 255.0f, 80 / 255.0f, 100 / 255.0f, 1);
-		shapeRenderer.rect(0, 0, gameHeight, midPointY + 66);
+		shapeRenderer.rect(0, 0, gameWidth, gameHeight);
 
 		shapeRenderer.end();
 
@@ -140,31 +145,47 @@ public class GameRenderer {
 		switch(myWorld.getState()) {
 		
 		case RUNNING:
-			scroller.draw(batcher,bar,skullUp,skullDown,forkup,forkdown,fruit,true);
+		case PAUSED:
+			scroller.draw(batcher,fruit);
+			break;
+
+		default:
+			break;
+		}
+		
+		bird.draw(batcher,fruit);
+
+		
+		staticBackgroundFruit.draw(batcher, yoghurtImage, fruit);
+
+		background.draw(batcher,yoghurtImage);
+		
+		scroller.drawFg(batcher,bar,skullUp,skullDown,forkup,forkdown, grassTex);
+
+		
+		switch(myWorld.getState()) {
+		
+		case RUNNING:
 			hud.draw(batcher,delta);
 			break;
 			
 		case MENU:
 		case OPTIONS:
-			scroller.draw(batcher,bar,skullUp,skullDown,forkup,forkdown,fruit,false);
 			title.draw(batcher,bar,skullUp,skullDown,fingerAnimation.getKeyFrame(runTime),fruit[bird.getFruitValue()]);
 			buttonhandler.draw(batcher);
 			break;
 			
 		case READY:
-			scroller.draw(batcher,bar,skullUp,skullDown,forkup,forkdown,fruit,false);
 			buttonhandler.draw(batcher);
 			break;
 		
 		case PAUSED:
-			scroller.draw(batcher,bar,skullUp,skullDown,forkup,forkdown,fruit,true);
 			hud.draw(batcher,delta);
 			buttonhandler.draw(batcher);
 			break;
 		
 		case GAMEOVER:
 		case HIGHSCORE:
-			scroller.draw(batcher,bar,skullUp,skullDown,forkup,forkdown,fruit,false);
 			buttonhandler.draw(batcher);
 			scoreBoard.draw(batcher, fruit, noStar);
 			break;
@@ -173,14 +194,8 @@ public class GameRenderer {
 			break;
 		}
 		
-		bird.draw(batcher,fruit);
-
-		
-		scroller.drawFg(batcher,grassTex);
 		
 		batcher.end();
-
-		yoghurt.draw(batcher, shapeRenderer, yoghurtImage, fruit);
 
 		
 		//COLLISIONS VIEW
@@ -209,6 +224,31 @@ public class GameRenderer {
 			shapeRenderer.end();
 		}
 		
+		
+		//Glass line
+		/*
+		final int ghalfheight = gameHeight/2;
+		final int glassCeiling = ghalfheight - 200;
+		final int glassCeilingMinX = 30;
+		final int glassCeilingMaxX = gameWidth - 33;
+
+		shapeRenderer.begin(ShapeType.Line);
+		shapeRenderer.setColor(0, 0, 0, 0);
+		shapeRenderer.line(0, glassCeiling, gameWidth, glassCeiling);
+		shapeRenderer.line(glassCeilingMinX, 0, glassCeilingMinX, gameHeight);
+		shapeRenderer.line(glassCeilingMaxX, 0, glassCeilingMaxX, gameHeight);
+		shapeRenderer.end();
+		*/
+
+		//Yoghurt line
+		/*
+		final int halfheight = gameHeight/2;
+		final int yoghurtStart = halfheight + 170;
+		shapeRenderer.begin(ShapeType.Line);
+		shapeRenderer.setColor(0, 0, 0, 0);
+		shapeRenderer.line(0, yoghurtStart, gameWidth, yoghurtStart);
+		shapeRenderer.end();
+		*/
 
 		drawTransition(delta);
 

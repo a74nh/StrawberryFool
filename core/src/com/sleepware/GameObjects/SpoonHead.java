@@ -18,6 +18,7 @@ public class SpoonHead {
 	private final int barWidth;
 	private final int barHeight;
 	private final int barYOffset;
+	private final int bigForkBarYOffset;
 	private final boolean invertX;
 
 
@@ -28,6 +29,7 @@ public class SpoonHead {
 		this.barWidth=barHeight;
 		this.barHeight=barHeight;
 		this.barYOffset=(headHeight-barHeight)/2;
+		this.bigForkBarYOffset=(headHeight-(barHeight*2))/2;
 		this.invertX=invertX;
 
 		imageRect = new Rectangle();
@@ -45,13 +47,39 @@ public class SpoonHead {
 				headHeight);
 		
 		if(isFork) {
-			collisonRect.set(x, 
-					y, 
-					headWidth, 
-					headHeight);
 			
-			collisonEllipse1.set(0,0,0); 
-			collisonEllipse2.set(0,0,0); 
+			if(invertX) {
+
+				final float baseX = x+headWidth-barWidth;
+				
+				collisonRect.set(baseX, 
+						y+bigForkBarYOffset, 
+						barWidth, 
+						barHeight*2);
+				
+				collisonEllipse1.set(baseX-(headHeight/2), 
+						y+(headHeight/2), 
+						(headHeight)/2);
+				
+				collisonEllipse2.set(baseX-headHeight, 
+						y+(headHeight/2), 
+						(headHeight)/2);
+				
+			} else {
+				
+				collisonRect.set(x, 
+						y+bigForkBarYOffset, 
+						barWidth, 
+						barHeight*2);
+				
+				collisonEllipse1.set(x+barWidth+(headHeight/2), 
+						y+(headHeight/2), 
+						(headHeight)/2);
+				
+				collisonEllipse2.set(x+barWidth+headHeight, 
+						y+(headHeight/2), 
+						(headHeight)/2);
+			} 
 			
 		}
 		else if(invertX) {
@@ -67,7 +95,7 @@ public class SpoonHead {
 					y+(headHeight/2), 
 					(headHeight)/2);
 			
-			collisonEllipse2.set(baseX-headHeight, 
+			collisonEllipse2.set(baseX-headHeight+2, 
 					y+(headHeight/2), 
 					(headHeight)/2);
 			
@@ -82,7 +110,7 @@ public class SpoonHead {
 					y+(headHeight/2), 
 					(headHeight)/2);
 			
-			collisonEllipse2.set(x+barWidth+headHeight, 
+			collisonEllipse2.set(x+barWidth+headHeight-2, 
 					y+(headHeight/2), 
 					(headHeight)/2);
 		}

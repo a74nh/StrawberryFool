@@ -3,15 +3,12 @@ package com.sleepware.ZBHelpers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.sleepware.GameObjects.Fruit;
 
 public class AssetLoader {
@@ -20,7 +17,7 @@ public class AssetLoader {
 	public static final int NUMBER_OF_FRUIT= 4;
 	public static final int NUMBER_OF_FINGER_FRAMES= 6;
 
-	private static Texture logoTexture, backgroundTexture, spoonTexture, stripeTexture, yoghurtTexture, crossTexture;
+	private static Texture logoTexture, backgroundTexture, spoonTexture, stripeTexture, crossTexture;
 	public static TextureRegion logoImg, zbLogo, bg, grass, bird, birdDown,
 			birdUp, spoonHeadLeftImg, spoonHeadRightImg, bar, playButtonUp, playButtonDown,
 			noStar, ball1, ball2, ball3, backgroundImage, forkHeadLeftImg, forkHeadRightImg, yoghurt;
@@ -53,6 +50,26 @@ public class AssetLoader {
 		logoImg = new TextureRegion(logoTexture, 0, 0, 1024, 1024);
 
 		
+		//backgroundTexture = new Texture(Gdx.files.internal("hurricaneglass2.png"));
+		//backgroundTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		//backgroundImage = new TextureRegion(backgroundTexture, 10, 5, 350, 666);
+
+
+		backgroundTexture = new Texture(Gdx.files.internal("tumbler.png"));
+		backgroundTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		backgroundImage = new TextureRegion(backgroundTexture, 22, 20, 450, 800);
+		
+		backgroundImage.flip(false, true);		
+		
+
+		//yoghurtTexture = new Texture(Gdx.files.internal("hurricaneglassyoghurt2.png"));
+		//yoghurtTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+
+		yoghurt = new TextureRegion(backgroundTexture, 556, 20, 450, 800);
+		yoghurt.flip(false, true);		
+		
+		
+		
 		spoonTexture = new Texture(Gdx.files.internal("forkandspoon.png"));
 		
 		spoonHeadLeftImg = new TextureRegion(spoonTexture, 79, 90, 172, 85);
@@ -65,22 +82,6 @@ public class AssetLoader {
 		forkHeadLeftImg = new TextureRegion(spoonTexture, 80, 3, 172, 59);
 		forkHeadRightImg = new TextureRegion(forkHeadLeftImg);
 		forkHeadRightImg.flip(true, false);		
-		
-		/*
-		spoonTexture = new Texture(Gdx.files.internal("forkandspoon2.png"));
-		
-		spoonHeadLeftImg = new TextureRegion(spoonTexture, 406, 181, 408, 225);
-		spoonHeadRightImg = new TextureRegion(spoonHeadLeftImg);
-		spoonHeadRightImg.flip(true, false);
-
-		bar = new TextureRegion(spoonTexture, 297, 272, 97, 41);
-		bar.flip(false, true);
-		
-		forkHeadLeftImg = new TextureRegion(spoonTexture, 80, 3, 172, 59);
-		forkHeadRightImg = new TextureRegion(forkHeadLeftImg);
-		forkHeadRightImg.flip(true, false);		
-		*/
-		
 
 		buttons = new TextureRegion[2];
 
@@ -108,25 +109,12 @@ public class AssetLoader {
 		fingerAnimation = new Animation(0.13f, finger);
 		fingerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		
-		
-		backgroundTexture = new Texture(Gdx.files.internal("icecream.png"));
-		backgroundTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
-		backgroundImage = new TextureRegion(backgroundTexture, 0, 0, 408, 272);
-		backgroundImage.flip(false, true);		
-		
 
 		stripeTexture = new Texture(Gdx.files.internal("stripe.png"));
 		stripeTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
 		grass = new TextureRegion(stripeTexture, 0, 23, 64, 512-23);
-		
-		
-		yoghurtTexture = new Texture(Gdx.files.internal("yoghurt.png"));
-		yoghurtTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-
-		yoghurt = new TextureRegion(yoghurtTexture, 0, 0, 408, 272);
-		yoghurt.flip(false, true);		
 		
 		
 		crossTexture = new Texture(Gdx.files.internal("cross.png"));
@@ -138,11 +126,12 @@ public class AssetLoader {
 
 		fruit = new Fruit[NUMBER_OF_FRUIT];
 		
-		fruit[0] = new Fruit("strawberry", 1f, 0.3f, 0.3f);
-		fruit[1] = new Fruit("apple", 0.3f, 1f, 0.3f);
-		fruit[2] = new Fruit("lemon", 1f, 1f, 0.3f);
-		fruit[3] = new Fruit("grapes", 0.3f, 1f, 0.3f);
-		
+		fruit[0] = new Fruit("strawberry", 1f, 0.3f, 0.3f, 206, 244);
+		fruit[1] = new Fruit("apple", 0.3f, 1f, 0.3f, 32, 32);
+		fruit[2] = new Fruit("lemon", 1f, 1f, 0.3f, 32, 32);
+		fruit[3] = new Fruit("grape", 0.3f, 1f, 0.3f, 32, 32);
+		//fruit[4] = new Fruit("strawberry2", 1f, 0.3f, 0.3f, 290, 282);
+
 	
 		/*********************************************************************/
 		/* AUDIO */
@@ -231,7 +220,6 @@ public class AssetLoader {
 		backgroundTexture.dispose();
 		spoonTexture.dispose();
 		stripeTexture.dispose();
-		yoghurtTexture.dispose();
 		crossTexture.dispose();
 
 		// Dispose sounds

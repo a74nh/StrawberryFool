@@ -1,5 +1,6 @@
 package com.sleepware.GameWorld;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.sleepware.GameObjects.Bird;
 import com.sleepware.GameObjects.ButtonHandler;
 import com.sleepware.GameObjects.ScoreBoard;
@@ -8,7 +9,7 @@ import com.sleepware.GameObjects.Hud;
 import com.sleepware.GameObjects.StaticImage;
 import com.sleepware.GameObjects.ScrollHandler;
 import com.sleepware.GameObjects.Title;
-import com.sleepware.GameObjects.Yoghurt;
+import com.sleepware.GameObjects.StaticBackgroundFruit;
 import com.sleepware.GameWorld.GameLevel.GameType;
 import com.sleepware.ZBHelpers.AssetLoader;
 
@@ -28,7 +29,8 @@ public class GameWorld {
 	
 	private GameState currentState;
 	private StaticImage background;
-	private Yoghurt yoghurt;
+	private StaticImage foreground;
+	private StaticBackgroundFruit staticBackgroundFruit;
 	private ButtonHandler buttonhandler;
 	private Hud hud;
 	private Title title;
@@ -52,7 +54,10 @@ public class GameWorld {
 		
 		final int halfheight = gameHeight/2;
 		
-		int groundStart = halfheight + 200;
+		final int yoghurtStart = halfheight + 170;
+		final int glassCeiling = halfheight - 200;
+		final int glassCeilingMinX = 30;
+		final int glassCeilingMaxX = gameWidth - 33;
 		
 		//Bird starts halfway between the grasses
 		birdMidpoint = ( (minX-maxX) / 2 ) + maxX;
@@ -69,13 +74,19 @@ public class GameWorld {
 		final int fallingFruitDiameter = birdDiameter*2/3;
 		final int staticFruitDiameter = birdDiameter*2/3;
 		
-		level = new GameLevel(this);
-
+		level = new GameLevel(this);	
+		
 		bird = new Bird(this, birdMidpoint, gameHeight, birdDiameter, maxBirdMovement);	
-		scroller = new ScrollHandler(this, minX, maxX, groundStart, grassSize, spoonSize, spoonHandleWidth, spoonHandleHeight, fallingFruitDiameter);
-		background = new StaticImage(minX,0,maxX,groundStart);
-		yoghurt = new Yoghurt(0,groundStart,gameWidth,gameHeight-groundStart, staticFruitDiameter, minX, maxX);
-		hud = new Hud(this, groundStart, minX, maxX);
+		scroller = new ScrollHandler(this, minX, maxX, 
+				yoghurtStart,
+				gameHeight, grassSize, spoonSize, 
+				spoonHandleWidth, spoonHandleHeight, 
+				fallingFruitDiameter,
+				glassCeilingMinX, glassCeilingMaxX);
+		background = new StaticImage(0,halfheight-200,gameWidth,450);
+		foreground = new StaticImage(0,halfheight-200,gameWidth,450);
+		staticBackgroundFruit = new StaticBackgroundFruit(0, yoghurtStart, staticFruitDiameter, minX+20, maxX-20);
+		hud = new Hud(this, gameHeight, minX, maxX);
 		title = new Title(minX, maxX, gameHeight, spoonSize, spoonHandleWidth, spoonHandleHeight, birdDiameter);
 		buttonhandler = new ButtonHandler(this, gameWidth, gameHeight);
 		scoreBoard = new ScoreBoard(this, minX, maxX, gameHeight, fallingFruitDiameter);
@@ -186,8 +197,12 @@ public class GameWorld {
 		return background;
 	}
 	
-	public Yoghurt getYoghurt() {
-		return yoghurt;
+	public StaticImage getForeground() {
+		return foreground;
+	}
+	
+	public StaticBackgroundFruit getYoghurt() {
+		return staticBackgroundFruit;
 	}
 	
 	public ScoreBoard getScoreBoard() {

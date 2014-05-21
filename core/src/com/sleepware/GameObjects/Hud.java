@@ -26,8 +26,8 @@ public class Hud {
 		this.minX=minX;
 		this.maxX=maxX;
 		int fontHeight=(int)AssetLoader.buttonFont.getLineHeight();
-		this.y1 = y + (4*(fontHeight));
-		this.y2 = y + (3*(fontHeight)) + 5;
+		this.y1 = y + (6*(fontHeight));
+		this.y2 = y + (5*(fontHeight)) + 5;
 		this.middle=((maxX-minX)/2)+minX;
 		
 		levelString = "Level";

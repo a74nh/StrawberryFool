@@ -13,7 +13,7 @@ public class ScrollHandler {
 		NORMAL, GENERATE_BAR, GENERATE_FAR_AWAY
 	}
 	
-	public static final int NUMBER_OF_GRASSES = 2;
+	public static final int NUMBER_OF_CANDYWALLS = 2;
 	public static final int NUMBER_OF_SPOONS = 6;
 	public static final int NUMBER_OF_FALLING_FRUIT = 8;
 
@@ -23,6 +23,8 @@ public class ScrollHandler {
 
 	private GameWorld gameWorld;
 	private final float groundStart;
+	private int gameHeight;
+
 	private int birdHeight;
 
 	private LevelState levelState;
@@ -35,29 +37,33 @@ public class ScrollHandler {
 			int grassLeftStart, 
 			int grassRightStart, 
 			int groundStart,
+			int gameHeight,
 			int grassSize,
 			int spoonSize,
 			int headWidth,
 			int headHeight,
-			int fruitDiameter) {
+			int fruitDiameter,
+			int fruitMinX,
+			int fruitMaxX) {
 		
 		this.gameWorld = gameWorld;
 		level = gameWorld.getLevel();
 		this.groundStart = groundStart;
+		this.gameHeight = gameHeight;
 		
 		final int grassLength = (int)groundStart+2;
 		
-		pipeRestartPoint = (int) ((groundStart*5/4)+headHeight);
+		pipeRestartPoint = (int) ((gameHeight*5/4)+headHeight);
 		
-        candywall = new Scrollable[NUMBER_OF_GRASSES][2];
+        candywall = new Scrollable[NUMBER_OF_CANDYWALLS][2];
 
-        candywall[0][0] = new Scrollable(0, 0, grassSize, grassLength, (float)1.5);
-        candywall[0][1] = new Scrollable(0, candywall[0][0].getTailY(), grassSize, grassLength, (float)1.5);
+        candywall[0][0] = new Scrollable(grassLeftStart-grassSize, 0, grassSize, grassLength, (float)1.5);
+        candywall[0][1] = new Scrollable(grassLeftStart-grassSize, candywall[0][0].getTailY(), grassSize, grassLength, (float)1.5);
         
         candywall[1][0] = new Scrollable(grassRightStart, 0, grassSize, grassLength, (float)1.5);
         candywall[1][1] = new Scrollable(grassRightStart, candywall[0][0].getTailY(), grassSize, grassLength, (float)1.5);
         
-		for(int i=0; i<NUMBER_OF_GRASSES; i++) {
+		for(int i=0; i<NUMBER_OF_CANDYWALLS; i++) {
 			candywall[i][0].setLeader(candywall[i][1],0);
 			candywall[i][1].setLeader(candywall[i][0],0);
 		}
@@ -82,11 +88,11 @@ public class ScrollHandler {
 		
 		fallingFruit = new FallingBackgroundFruit[NUMBER_OF_FALLING_FRUIT];
 
-		final float offset = (grassRightStart-grassLeftStart)/NUMBER_OF_FALLING_FRUIT;
+		final float offset = (fruitMaxX-fruitMinX)/NUMBER_OF_FALLING_FRUIT;
 		
 		for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++)
 		{
-			fallingFruit[i] = new FallingBackgroundFruit(fruitDiameter,(int) groundStart, (int)(grassLeftStart+(i*offset)), (int)(grassLeftStart+((i+1)*offset)),1);
+			fallingFruit[i] = new FallingBackgroundFruit(fruitDiameter,(int) groundStart, (int)(fruitMinX+(i*offset)), (int)(fruitMinX+((i+1)*offset)),1);
 		}
 		
 		onRestart();
@@ -94,12 +100,12 @@ public class ScrollHandler {
 
 	public void updateReady(float delta) {
 
-		for(int i=0; i<NUMBER_OF_GRASSES; i++) {
+		for(int i=0; i<NUMBER_OF_CANDYWALLS; i++) {
 			for(int j=0; j<2; j++) {
 		        candywall[i][j].update(delta);
 			}
 		}
-		for(int i=0; i<NUMBER_OF_GRASSES; i++) {
+		for(int i=0; i<NUMBER_OF_CANDYWALLS; i++) {
 			for(int j=0; j<2; j++) {
 		        candywall[i][j].checkForOverflow();
 			}
@@ -111,12 +117,12 @@ public class ScrollHandler {
 
 	public void update(float delta) {
 		
-		for(int i=0; i<NUMBER_OF_GRASSES; i++) {
+		for(int i=0; i<NUMBER_OF_CANDYWALLS; i++) {
 			for(int j=0; j<2; j++) {
 		        candywall[i][j].update(delta);
 			}	
 		}
-		for(int i=0; i<NUMBER_OF_GRASSES; i++) {
+		for(int i=0; i<NUMBER_OF_CANDYWALLS; i++) {
 			for(int j=0; j<2; j++) {
 		        candywall[i][j].checkForOverflow();
 			}	
@@ -159,7 +165,7 @@ public class ScrollHandler {
 
 	private void setLevelAttributes() {
 		
-		for(int i=0; i<NUMBER_OF_GRASSES; i++) {
+		for(int i=0; i<NUMBER_OF_CANDYWALLS; i++) {
 			for(int j=0; j<2; j++) {
 				candywall[i][j].setLevelAttributes(level.getScrollSpeed());
 			}
@@ -180,7 +186,7 @@ public class ScrollHandler {
 
 	public void stop() {
 		
-		for(int i=0; i<NUMBER_OF_GRASSES; i++) {
+		for(int i=0; i<NUMBER_OF_CANDYWALLS; i++) {
 			for(int j=0; j<2; j++) {
 		        candywall[i][j].stop();
 			}
@@ -225,20 +231,26 @@ public class ScrollHandler {
 	}
 	
 	public void draw(SpriteBatch batcher, 
+			Fruit[] fruit) {
+
+		batcher.enableBlending();
+
+		for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++) {
+				fallingFruit[i].draw(batcher,fruit);
+		}		
+	}
+		
+	public void drawFg(SpriteBatch batcher,
 			TextureRegion bar, 
 			TextureRegion headUp, 
 			TextureRegion headDown, 
 			TextureRegion forkup, 
 			TextureRegion forkdown, 
-			Fruit[] fruit,
-			boolean drawFruit) {
-
-		batcher.enableBlending();
-
-		if(drawFruit) {
-			for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++)
-			{
-				fallingFruit[i].draw(batcher,fruit);
+			TextureRegion wallImage) {
+		
+		for(int i=0; i<NUMBER_OF_CANDYWALLS; i++) {
+			for(int j=0; j<2; j++) {
+				candywall[i][j].drawBar(batcher,wallImage);
 			}
 		}
 		
@@ -246,17 +258,6 @@ public class ScrollHandler {
 			spoon[i].drawBar(batcher,bar);
 			spoon[i].drawHeads(batcher,headUp,headDown,forkup,forkdown);
 		}
-		
-	}
-		
-	public void drawFg(SpriteBatch batcher, 
-				TextureRegion grassTex) {
-		
-		for(int i=0; i<NUMBER_OF_GRASSES; i++) {
-			for(int j=0; j<2; j++) {
-				candywall[i][j].drawBar(batcher,grassTex);
-			}
-		}		
 	}
 
 
@@ -270,7 +271,7 @@ public class ScrollHandler {
 	
 	public void onRestart() {
 		
-		for(int i=0; i<NUMBER_OF_GRASSES; i++) {
+		for(int i=0; i<NUMBER_OF_CANDYWALLS; i++) {
 			candywall[i][0].onRestart(0);
 			candywall[i][1].onRestart(candywall[i][0].getTailY());
 		}

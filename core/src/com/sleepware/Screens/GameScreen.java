@@ -23,8 +23,8 @@ public class GameScreen implements Screen {
 		float gameWidth = 272;
 		float gameHeight = screenHeight / (screenWidth / gameWidth);
 		
-		int minX = 11;
-		int maxX = (int)gameWidth-11;
+		int minX = 4;
+		int maxX = (int)gameWidth-4;
 		
 		world = new GameWorld((int) gameWidth, (int) gameHeight, minX, maxX);
 		Gdx.input.setInputProcessor(new InputHandler(world, screenWidth, gameWidth, screenHeight, gameHeight));

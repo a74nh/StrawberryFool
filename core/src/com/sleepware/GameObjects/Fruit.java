@@ -14,11 +14,11 @@ public class Fruit {
 	private final String name;
 	private final float colour;
 	
-	public Fruit (String name, float r, float g, float b) {
+	public Fruit (String name, float r, float g, float b, int w, int h) {
 		
-		texture=new Texture(Gdx.files.internal(name+"small.png"));
+		texture=new Texture(Gdx.files.internal(name+".png"));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		image = new TextureRegion(texture, 0, 0, 32, 32);
+		image = new TextureRegion(texture, 0, 0, w, h);
 
 		this.name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
 

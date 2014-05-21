@@ -4,25 +4,18 @@ import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.sleepware.ZBHelpers.AssetLoader;
 
-public class Yoghurt {
+public class StaticBackgroundFruit {
 
 	private static final int NUMBER_OF_FRUIT = 5;
 	
-	private StaticImage solidWhite, white;
 	private RotatedStaticImage fruit[];
 	private int fruitId[];
 	
 	
-	public Yoghurt(int x, int y, int width, int height, int fruitDiameter, int minX, int maxX) {
+	public StaticBackgroundFruit(int x, int y, int fruitDiameter, int minX, int maxX) {
 		
-		solidWhite = new StaticImage(x,y, width, height);
-
-		white = new StaticImage(0, y-5, width, 64);
-
 		Random r = new Random();
 
 		fruit = new RotatedStaticImage[NUMBER_OF_FRUIT];
@@ -38,7 +31,7 @@ public class Yoghurt {
 			
 			final int fruitX = r.nextInt(thisMaxX-thisMinX-fruitDiameter)+thisMinX;
 
-			final int fruitY = y - 5 - r.nextInt(fruitDiameter*7/10);
+			final int fruitY = y - (fruitDiameter*2/10) - r.nextInt(fruitDiameter*4/10);
 
 			final int fruitRot = r.nextInt(360);
 
@@ -49,31 +42,11 @@ public class Yoghurt {
 	}
 	
 	
-	public void draw(SpriteBatch batcher, ShapeRenderer shapeRenderer,
-			TextureRegion yoghurtImage, Fruit[] fruitImages) {
+	public void draw(SpriteBatch batcher, TextureRegion yoghurtImage, Fruit[] fruitImages) {
 		
-		shapeRenderer.begin(ShapeType.Filled);
-
-		shapeRenderer.setColor(255 / 255.0f, 255 / 255.0f, 255 / 255.0f, 1);
-		
-		solidWhite.drawShape(shapeRenderer);
-
-		shapeRenderer.end();
-		
-		batcher.begin();
-	
 		for(int i=0; i<NUMBER_OF_FRUIT; i++) {
 			fruit[i].draw(batcher, fruitImages[fruitId[i]].getImage());
-		}
-		
-		white.draw(batcher,yoghurtImage);
-
-		
-		batcher.end();
-
-		
-		
-		
+		}		
 	}
 
 
