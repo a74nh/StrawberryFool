@@ -48,6 +48,7 @@ public class GameRenderer {
 	// Game Objects
 	private Bird bird;
 	private ScrollHandler scroller;
+	private StaticImage farBackground;
 	private StaticImage background;
 	private StaticImage foreground;
 	private StaticBackgroundFruit staticBackgroundFruit;
@@ -57,7 +58,7 @@ public class GameRenderer {
 	private ScoreBoard scoreBoard;
 
 	// Game Assets
-	private TextureRegion bg, grassTex, skullUp, skullDown, bar,
+	private TextureRegion fbg, bg, grassTex, skullUp, skullDown, bar,
 			noStar, forkup, forkdown, yoghurtImage ;
 	private Animation fingerAnimation;
 	private Fruit[] fruit;
@@ -99,6 +100,7 @@ public class GameRenderer {
 	private void initGameObjects() {
 		bird = myWorld.getBird();
 		scroller = myWorld.getScroller();
+		farBackground = myWorld.getFarBackground();
 		background = myWorld.getBackground();
 		foreground = myWorld.getForeground();
 		staticBackgroundFruit = myWorld.getYoghurt();
@@ -109,6 +111,7 @@ public class GameRenderer {
 	}
 
 	private void initAssets() {
+		fbg = AssetLoader.farBackgroundImage;
 		bg = AssetLoader.backgroundImage;
 		grassTex = AssetLoader.grass;
 		skullUp = AssetLoader.spoonHeadLeftImg;
@@ -132,15 +135,15 @@ public class GameRenderer {
 		shapeRenderer.begin(ShapeType.Filled);
 
 		// Draw Background colour
-		shapeRenderer.setColor(55 / 255.0f, 80 / 255.0f, 100 / 255.0f, 1);
+		shapeRenderer.setColor(0 / 255.0f, 242 / 255.0f, 0 / 255.0f, 1);
 		shapeRenderer.rect(0, 0, gameWidth, gameHeight);
 
 		shapeRenderer.end();
 
 		batcher.begin();
+		farBackground.draw(batcher,fbg);
 		background.draw(batcher,bg);
 
-		
 		
 		switch(myWorld.getState()) {
 		
@@ -148,17 +151,29 @@ public class GameRenderer {
 		case PAUSED:
 			scroller.draw(batcher,fruit);
 			break;
-
+			
 		default:
 			break;
 		}
 		
 		bird.draw(batcher,fruit);
 
-		
 		staticBackgroundFruit.draw(batcher, yoghurtImage, fruit);
 
 		background.draw(batcher,yoghurtImage);
+		
+		
+		switch(myWorld.getState()) {
+
+		case MENU:
+		case OPTIONS:
+			title.draw(batcher,bar,skullUp,skullDown,fingerAnimation.getKeyFrame(runTime),fruit[bird.getFruitValue()]);
+			break;
+			
+		default:
+			break;
+		}
+		
 		
 		scroller.drawFg(batcher,bar,skullUp,skullDown,forkup,forkdown, grassTex);
 
@@ -171,7 +186,6 @@ public class GameRenderer {
 			
 		case MENU:
 		case OPTIONS:
-			title.draw(batcher,bar,skullUp,skullDown,fingerAnimation.getKeyFrame(runTime),fruit[bird.getFruitValue()]);
 			buttonhandler.draw(batcher);
 			break;
 			

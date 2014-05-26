@@ -23,7 +23,7 @@ public class Spoon extends Scrollable {
 //	private Rectangle headLeft, headRight;
 	private SpoonHead headL, headR;
 	
-	private int middle_gap;
+	private float middle_gap;
 	private final int headWidth;
 	private final int headHeight;
 	private int barHeight;
@@ -62,9 +62,9 @@ public class Spoon extends Scrollable {
 		reset(y);
 	}
 
-	public void setLevelAttributes(int scrollSpeed, int pipeGap, int deathVelocity) {
-		super.setLevelAttributes(scrollSpeed);
-		middle_gap = pipeGap;
+	public void setLevelAttributes(float f, float g, int deathVelocity) {
+		super.setLevelAttributes(f);
+		middle_gap = g;
 		this.deathVelocity = deathVelocity;
 	}
 	
@@ -165,7 +165,7 @@ public class Spoon extends Scrollable {
 	}
 
 	public void move(int screenX) {
-		destination=screenX-(middle_gap/2);
+		destination=(int) (screenX-(middle_gap/2));
 	}
 	
 	public void drawBar(SpriteBatch batcher, TextureRegion normalTexture) {

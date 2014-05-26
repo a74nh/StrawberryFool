@@ -17,10 +17,10 @@ public class AssetLoader {
 	public static final int NUMBER_OF_FRUIT= 4;
 	public static final int NUMBER_OF_FINGER_FRAMES= 6;
 
-	private static Texture logoTexture, backgroundTexture, spoonTexture, stripeTexture, crossTexture;
+	private static Texture logoTexture, backgroundTexture, spoonTexture, stripeTexture, crossTexture, farBackgroundTexture;
 	public static TextureRegion logoImg, zbLogo, bg, grass, bird, birdDown,
 			birdUp, spoonHeadLeftImg, spoonHeadRightImg, bar, playButtonUp, playButtonDown,
-			noStar, ball1, ball2, ball3, backgroundImage, forkHeadLeftImg, forkHeadRightImg, yoghurt;
+			noStar, ball1, ball2, ball3, backgroundImage, forkHeadLeftImg, forkHeadRightImg, yoghurt, farBackgroundImage;
 	
 	public static Fruit[] fruit;
 
@@ -54,11 +54,14 @@ public class AssetLoader {
 		//backgroundTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		//backgroundImage = new TextureRegion(backgroundTexture, 10, 5, 350, 666);
 
+		farBackgroundTexture = new Texture(Gdx.files.internal("diner3.png"));
+		farBackgroundTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		farBackgroundImage = new TextureRegion(farBackgroundTexture, 250, 0, 600, 980);
+		farBackgroundImage.flip(false, true);		
 
 		backgroundTexture = new Texture(Gdx.files.internal("tumbler.png"));
 		backgroundTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		backgroundImage = new TextureRegion(backgroundTexture, 22, 20, 450, 800);
-		
 		backgroundImage.flip(false, true);		
 		
 
@@ -127,9 +130,11 @@ public class AssetLoader {
 		fruit = new Fruit[NUMBER_OF_FRUIT];
 		
 		fruit[0] = new Fruit("strawberry", 1f, 0.3f, 0.3f, 206, 244);
-		fruit[1] = new Fruit("apple", 0.3f, 1f, 0.3f, 32, 32);
-		fruit[2] = new Fruit("lemon", 1f, 1f, 0.3f, 32, 32);
-		fruit[3] = new Fruit("grape", 0.3f, 1f, 0.3f, 32, 32);
+		//fruit[1] = new Fruit("apple", 0.3f, 1f, 0.3f, 32, 32);
+		fruit[1] = new Fruit("gooseberry", 0.3f, 1f, 0.3f, 378, 481);
+		fruit[2] = new Fruit("raspberry", 0.91f, 0.09f, 0.47f, 300, 329);
+		fruit[3] = new Fruit("lemon", 1f, 1f, 0.3f, 299, 225);
+
 		//fruit[4] = new Fruit("strawberry2", 1f, 0.3f, 0.3f, 290, 282);
 
 	

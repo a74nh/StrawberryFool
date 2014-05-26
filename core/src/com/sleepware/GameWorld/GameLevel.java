@@ -9,16 +9,16 @@ public class GameLevel {
 		private final boolean ALWAYS_MAX_LEVEL=false;
 		//private final boolean ALWAYS_MAX_LEVEL=true;
 		
-		public final int min, max, inc;
+		public final float min, max, inc;
 		
-		public LevelParam(int min, int max, int inc) {
+		public LevelParam(int min, int max, float inc) {
 			this.min=min;
 			this.max=max;
 			this.inc=inc;
 		}
 		
-		public int getCurrent(int level) {
-			int current = min + (inc*level);
+		public float getCurrent(int level) {
+			float current = min + (inc*level);
 			
 			if(inc>0) {
 				if (current>max || ALWAYS_MAX_LEVEL)
@@ -32,9 +32,10 @@ public class GameLevel {
 	}
 	
 	private final LevelParam HORIZONTAL_PIPE_GAP = new LevelParam(145,100,-3); //Num Levels = 15
-	private final LevelParam MAX_SCROLL_SPEED = new LevelParam(79,150,5); //Num Levels = 15
+	private final LevelParam MAX_SCROLL_SPEED = new LevelParam(79,150,3); //Num Levels = 24
 	private final LevelParam MAX_BIRD_POSITION = new LevelParam(0,130,5); //Num Levels = 26
-	private final LevelParam MAX_BIRD_SPEED = new LevelParam(50,100,5); // Num Levels = 10
+	private final LevelParam MAX_BIRD_SPEED = new LevelParam(50,100,2); // Num Levels = 25
+	private final LevelParam MAX_BIRD_MAX_MOVEMENT = new LevelParam(79,92,0.5f); // Num Levels = 26 (make sure no more than MAX_BIRD_POSITION)
 	
 			
 	public enum GameType {
@@ -68,18 +69,23 @@ public class GameLevel {
 	}
 	
 	//Gap between the two spoons on one row
-	public int getHorizontalPipeGap() {
+	public float getHorizontalPipeGap() {
 		return HORIZONTAL_PIPE_GAP.getCurrent(level);
 	}
 	
 	//Speed at which walls and spoons scroll
-	public int getScrollSpeed() {
+	public float getScrollSpeed() {
 		return -MAX_SCROLL_SPEED.getCurrent(level);
 	}
 
     //How far down the screen the bird is
-	public int getBirdYPosition() {
+	public float getBirdYPosition() {
 		return MAX_BIRD_POSITION.getCurrent(level);
+	}
+	
+	//Max movement left and right of the center screen
+	public float getBirdMaxMovement() {
+		return MAX_BIRD_MAX_MOVEMENT.getCurrent(level);
 	}
 	
 	//Speed in which the bird moves to and fro
@@ -141,6 +147,7 @@ public class GameLevel {
 	public int getDeathVelocity() {
 		return 120;
 	}
+
 
 
 }

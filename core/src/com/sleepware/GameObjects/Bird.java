@@ -30,7 +30,7 @@ public class Bird {
 	private float rotation;
 	
 	private final int diameter;
-	private final int maxMovement;
+	private float maxMovement;
 
 	final private float originalX;
 	final private int offsetY;
@@ -56,11 +56,10 @@ public class Bird {
 	
 	private int foreverDirection;
 	
-	public Bird(GameWorld gameWorld, int x, int gameHeight, int diameter, int maxMovement) {
+	public Bird(GameWorld gameWorld, int x, int gameHeight, int diameter) {
 		world = gameWorld;
 		level = gameWorld.getLevel();
 		this.diameter = diameter;
-		this.maxMovement=maxMovement;
 		originalX = x - (diameter/2);
 		offsetY = (gameHeight/2) - 200;
 		
@@ -202,6 +201,7 @@ public class Bird {
 		velocity.x = level.getBirdSpeed();
 		deathVelocity = level.getDeathVelocity();
 		boundingCircle.set(position.x + (diameter/2), position.y +  (diameter/2),  (diameter/2));
+		maxMovement=level.getBirdMaxMovement();
 	}
 
 	

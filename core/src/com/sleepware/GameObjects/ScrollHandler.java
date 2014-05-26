@@ -25,7 +25,7 @@ public class ScrollHandler {
 	private final float groundStart;
 	private int gameHeight;
 
-	private int birdHeight;
+	private float birdHeight;
 
 	private LevelState levelState;
 	private GameLevel level;
@@ -248,16 +248,18 @@ public class ScrollHandler {
 			TextureRegion forkdown, 
 			TextureRegion wallImage) {
 		
+		for(int i=0; i<NUMBER_OF_SPOONS; i++) {
+			spoon[i].drawBar(batcher,bar);
+			spoon[i].drawHeads(batcher,headUp,headDown,forkup,forkdown);
+		}
+		
 		for(int i=0; i<NUMBER_OF_CANDYWALLS; i++) {
 			for(int j=0; j<2; j++) {
 				candywall[i][j].drawBar(batcher,wallImage);
 			}
 		}
 		
-		for(int i=0; i<NUMBER_OF_SPOONS; i++) {
-			spoon[i].drawBar(batcher,bar);
-			spoon[i].drawHeads(batcher,headUp,headDown,forkup,forkdown);
-		}
+
 	}
 
 

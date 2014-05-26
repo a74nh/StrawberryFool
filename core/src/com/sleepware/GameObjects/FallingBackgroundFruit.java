@@ -31,8 +31,8 @@ public class FallingBackgroundFruit extends RotatingScrollable {
 	}
 	
 	@Override
-	public void setLevelAttributes(int scrollSpeed) {
-		baseYVelocity=-scrollSpeed;
+	public void setLevelAttributes(float scrollSpeed) {
+		baseYVelocity=(int)-scrollSpeed;
 	}
 	
 	@Override

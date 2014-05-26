@@ -22,12 +22,12 @@ public class GameWorld {
 	private Bird bird;
 	private ScrollHandler scroller;
 	private int score = 0;
-	private float runTime = 0;
 	private final int midPointX;
 	private final int birdMidpoint;
 	private GameRenderer renderer;
 	
 	private GameState currentState;
+	private StaticImage farBackground;
 	private StaticImage background;
 	private StaticImage foreground;
 	private StaticBackgroundFruit staticBackgroundFruit;
@@ -55,15 +55,13 @@ public class GameWorld {
 		final int halfheight = gameHeight/2;
 		
 		final int yoghurtStart = halfheight + 170;
-		final int glassCeiling = halfheight - 200;
+		//final int glassCeiling = halfheight - 200;
 		final int glassCeilingMinX = 30;
 		final int glassCeilingMaxX = gameWidth - 33;
 		
 		//Bird starts halfway between the grasses
 		birdMidpoint = ( (minX-maxX) / 2 ) + maxX;
 		
-		final int maxBirdMovement = ( (maxX-minX) / 2 ) * 7 / 10;
-
 		final int grassSize = 11;
 		
 		final int spoonSize = 10;
@@ -76,13 +74,14 @@ public class GameWorld {
 		
 		level = new GameLevel(this);	
 		
-		bird = new Bird(this, birdMidpoint, gameHeight, birdDiameter, maxBirdMovement);	
+		bird = new Bird(this, birdMidpoint, gameHeight, birdDiameter);	
 		scroller = new ScrollHandler(this, minX, maxX, 
 				yoghurtStart,
 				gameHeight, grassSize, spoonSize, 
 				spoonHandleWidth, spoonHandleHeight, 
 				fallingFruitDiameter,
 				glassCeilingMinX, glassCeilingMaxX);
+		farBackground = new StaticImage(0,0,gameWidth,450);
 		background = new StaticImage(0,halfheight-200,gameWidth,450);
 		foreground = new StaticImage(0,halfheight-200,gameWidth,450);
 		staticBackgroundFruit = new StaticBackgroundFruit(0, yoghurtStart, staticFruitDiameter, minX+20, maxX-20);
@@ -96,7 +95,6 @@ public class GameWorld {
 	}
 
 	public void update(float delta) {
-		runTime += delta;
 
 		switch (currentState) {
 		case MENU:
@@ -122,7 +120,6 @@ public class GameWorld {
 		default:
 			break;
 		}
-
 	}
 
 
@@ -192,7 +189,11 @@ public class GameWorld {
 	public ScrollHandler getScroller() {
 		return scroller;
 	}
-
+	
+	public StaticImage getFarBackground() {
+		return farBackground;
+	}
+	
 	public StaticImage getBackground() {
 		return background;
 	}
@@ -279,7 +280,6 @@ public class GameWorld {
 	}
 	
 	private void reset() {
-		runTime=0;
 		score = 0;
 		level.onRestart();
 		bird.onRestart();
@@ -288,7 +288,6 @@ public class GameWorld {
 	}
 	
 	private void resetToMenu(boolean transition) {
-		runTime=0;
 		score = 0;
 		level.onRestart();
 		bird.onRestartTitleScreen();

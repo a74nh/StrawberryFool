@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.sleepware.GameObjects.SimpleButton.ActionFunction;
 import com.sleepware.GameWorld.GameWorld;
 import com.sleepware.GameWorld.GameLevel.GameType;
 import com.sleepware.GameWorld.GameWorld.GameState;
 import com.sleepware.ZBHelpers.AssetLoader;
-import com.sleepware.ui.SimpleButton;
-import com.sleepware.ui.SimpleButton.ActionFunction;
 
 public class ButtonHandler {
 

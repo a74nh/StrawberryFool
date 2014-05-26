@@ -24,8 +24,8 @@ public class Scrollable {
 		this.velocityMultiplier=velocityMultiplier;
 	}
 
-	public void setLevelAttributes(int scrollSpeed) {
-		velocity.y=scrollSpeed*velocityMultiplier;
+	public void setLevelAttributes(float f) {
+		velocity.y=f*velocityMultiplier;
 	}
 	
 	public void update(float delta) {
