@@ -130,12 +130,9 @@ public class AssetLoader {
 		fruit = new Fruit[NUMBER_OF_FRUIT];
 		
 		fruit[0] = new Fruit("strawberry", 1f, 0.3f, 0.3f, 206, 244);
-		//fruit[1] = new Fruit("apple", 0.3f, 1f, 0.3f, 32, 32);
 		fruit[1] = new Fruit("gooseberry", 0.3f, 1f, 0.3f, 378, 481);
 		fruit[2] = new Fruit("raspberry", 0.91f, 0.09f, 0.47f, 300, 329);
 		fruit[3] = new Fruit("lemon", 1f, 1f, 0.3f, 299, 225);
-
-		//fruit[4] = new Fruit("strawberry2", 1f, 0.3f, 0.3f, 290, 282);
 
 	
 		/*********************************************************************/
@@ -166,17 +163,19 @@ public class AssetLoader {
 		// Create (or retrieve existing) preferences file
 		prefs = Gdx.app.getPreferences("StrawberryFool");
 
+		//prefs.clear();
+		
 		if (!prefs.contains("highScore")) {
-			prefs.putInteger("highScore", 0);
+			setHighScore(0);
 		}
 		if (!prefs.contains("highLevel")) {
-			prefs.putInteger("highLevel", 0);
+			setHighLevel(0);
 		}
 		if (!prefs.contains("sound")) {
-			prefs.putBoolean("sound", true);
+			setSound(true);
 		}
 		if (!prefs.contains("collisions")) {
-			prefs.putBoolean("collisions", true);
+			setCollisions(true);
 		}
 		if(getSound()) volume=1; else volume=0;
 	}

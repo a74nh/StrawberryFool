@@ -225,6 +225,8 @@ public class ButtonHandler {
 		buttonY = (gameHeight/10)*4;
 		addLabel("READY...", (gameWidth / 2), buttonY, GameState.READY, null);
 		
+		
+		//onStateChange();
 	}
 		
 	
