@@ -49,7 +49,7 @@ public class ButtonHandler {
 			}
 		});
 			
-		buttonY+= BUTTON_HEIGHT + 5;
+		buttonY+= BUTTON_HEIGHT + 10;
 		addButton("Arcade", (gameWidth / 2), buttonY, GameState.MENU, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
@@ -62,7 +62,7 @@ public class ButtonHandler {
 		});
 		
 				
-		buttonY+= BUTTON_HEIGHT + 5;
+		buttonY+= BUTTON_HEIGHT + 10;
 		addButton("Options", (gameWidth / 2), buttonY, GameState.MENU, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
@@ -110,7 +110,7 @@ public class ButtonHandler {
 			}
 		});
 				
-		buttonY+= BUTTON_HEIGHT + 5;
+		buttonY+= BUTTON_HEIGHT + 10;
 		addButton("Sound", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
@@ -143,7 +143,7 @@ public class ButtonHandler {
 		});
 		
 		
-		buttonY+= BUTTON_HEIGHT + 5;
+		buttonY+= BUTTON_HEIGHT + 10;
 		addButton("Back", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
@@ -156,7 +156,7 @@ public class ButtonHandler {
 		});
 		
 		
-		buttonY+= BUTTON_HEIGHT + 20;
+		buttonY+= BUTTON_HEIGHT + 25;
 		addButton("Cheat", (gameWidth / 2), buttonY, GameState.OPTIONS, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {
@@ -205,7 +205,7 @@ public class ButtonHandler {
 			}
 		});
 				
-		buttonY+= BUTTON_HEIGHT + 5;
+		buttonY+= BUTTON_HEIGHT + 10;
 		addButton("Quit", (gameWidth / 2), buttonY, GameState.PAUSED, new ActionFunction() {
 			@Override
 			public void onClick(SimpleButton button, GameWorld world) {

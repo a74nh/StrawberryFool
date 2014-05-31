@@ -13,7 +13,6 @@ public class Hud {
 	
 	final private int y1, y2;
 	final private int minX;
-	final private int maxX;
 	final private int middle;
 	
 	private final String levelString;
@@ -24,7 +23,6 @@ public class Hud {
 		this.gameWorld=gameWorld;
 		this.level=gameWorld.getLevel();
 		this.minX=minX;
-		this.maxX=maxX;
 		int fontHeight=(int)AssetLoader.buttonFont.getLineHeight();
 		this.y1 = y + (6*(fontHeight));
 		this.y2 = y + (5*(fontHeight)) + 5;

@@ -12,8 +12,8 @@ public class StrawberryFool extends Game {
 	@Override
 	public void create() {
 		AssetLoader.load();
-		//setScreen(new SplashScreen(this));
-		setScreen(new GameScreen());
+		setScreen(new SplashScreen(this));
+		//setScreen(new GameScreen());
 	}
 
 	@Override

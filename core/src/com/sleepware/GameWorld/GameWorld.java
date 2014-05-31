@@ -1,6 +1,5 @@
 package com.sleepware.GameWorld;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.sleepware.GameObjects.Bird;
 import com.sleepware.GameObjects.ButtonHandler;
 import com.sleepware.GameObjects.ScoreBoard;
@@ -29,7 +28,6 @@ public class GameWorld {
 	private GameState currentState;
 	private StaticImage farBackground;
 	private StaticImage background;
-	private StaticImage foreground;
 	private StaticBackgroundFruit staticBackgroundFruit;
 	private ButtonHandler buttonhandler;
 	private Hud hud;
@@ -83,7 +81,6 @@ public class GameWorld {
 				glassCeilingMinX, glassCeilingMaxX);
 		farBackground = new StaticImage(0,0,gameWidth,450);
 		background = new StaticImage(0,halfheight-200,gameWidth,450);
-		foreground = new StaticImage(0,halfheight-200,gameWidth,450);
 		staticBackgroundFruit = new StaticBackgroundFruit(0, yoghurtStart, staticFruitDiameter, minX+20, maxX-20);
 		hud = new Hud(this, gameHeight, minX, maxX);
 		title = new Title(minX, maxX, gameHeight, spoonSize, spoonHandleWidth, spoonHandleHeight, birdDiameter);
@@ -196,10 +193,6 @@ public class GameWorld {
 	
 	public StaticImage getBackground() {
 		return background;
-	}
-	
-	public StaticImage getForeground() {
-		return foreground;
 	}
 	
 	public StaticBackgroundFruit getYoghurt() {

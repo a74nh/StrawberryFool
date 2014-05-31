@@ -22,8 +22,7 @@ public class ScrollHandler {
 	private FallingBackgroundFruit[] fallingFruit;
 
 	private GameWorld gameWorld;
-	private final float groundStart;
-	private int gameHeight;
+	private final float yoghurtStart;
 
 	private float birdHeight;
 
@@ -36,7 +35,7 @@ public class ScrollHandler {
 	public ScrollHandler(GameWorld gameWorld, 
 			int grassLeftStart, 
 			int grassRightStart, 
-			int groundStart,
+			int yoghurtStart,
 			int gameHeight,
 			int grassSize,
 			int spoonSize,
@@ -48,10 +47,9 @@ public class ScrollHandler {
 		
 		this.gameWorld = gameWorld;
 		level = gameWorld.getLevel();
-		this.groundStart = groundStart;
-		this.gameHeight = gameHeight;
+		this.yoghurtStart = yoghurtStart;
 		
-		final int grassLength = (int)groundStart+2;
+		final int grassLength = gameHeight+2;
 		
 		pipeRestartPoint = (int) ((gameHeight*5/4)+headHeight);
 		
@@ -68,11 +66,11 @@ public class ScrollHandler {
 			candywall[i][1].setLeader(candywall[i][0],0);
 		}
         
-		pipeGap = 59; //level.getPipeGap();
+		pipeGap = 59;
 		spoon = new Spoon[NUMBER_OF_SPOONS];
 		
 	
-		spoon[0] = new Spoon((groundStart*3/2), spoonSize, headWidth, headHeight, grassLeftStart, grassRightStart, 1);
+		spoon[0] = new Spoon((gameHeight*3/2), spoonSize, headWidth, headHeight, grassLeftStart, grassRightStart, 1);
 		for(int i=1; i<NUMBER_OF_SPOONS; i++)
 		{
 			spoon[i] = new Spoon(spoon[i-1].getTailY() + pipeGap,
@@ -92,7 +90,7 @@ public class ScrollHandler {
 		
 		for(int i=0; i<NUMBER_OF_FALLING_FRUIT; i++)
 		{
-			fallingFruit[i] = new FallingBackgroundFruit(fruitDiameter,(int) groundStart, (int)(fruitMinX+(i*offset)), (int)(fruitMinX+((i+1)*offset)),1);
+			fallingFruit[i] = new FallingBackgroundFruit(fruitDiameter,(int) yoghurtStart, (int)(fruitMinX+(i*offset)), (int)(fruitMinX+((i+1)*offset)),1);
 		}
 		
 		onRestart();
@@ -145,7 +143,7 @@ public class ScrollHandler {
 					levelState=LevelState.GENERATE_FAR_AWAY;
 					break;
 				case GENERATE_FAR_AWAY:
-					spoon[i].incY(groundStart);
+					spoon[i].incY(yoghurtStart);
 					levelState=LevelState.NORMAL;
 					break;
 				default:

@@ -38,6 +38,7 @@ public class Bird {
 	private boolean isAlive;
 
 	private Circle boundingCircle;
+	private Circle boundingCircleArray[];
 	
 	private LevelState levelState;
 	
@@ -66,6 +67,10 @@ public class Bird {
 		position = new Vector2(originalX,0);
 		velocity = new Vector2(0, 0);
 		boundingCircle = new Circle();
+		boundingCircleArray = new Circle[3];
+		for(int i=0; i<3; i++) {
+			boundingCircleArray[i]=new Circle();
+		}
 		
 		fruitValue = 0;
 		
@@ -104,12 +109,6 @@ public class Bird {
 		
 		case DYING:
 			position.x += (velocity.x*delta);
-
-			rotation += 1 * delta;
-			if (rotation > 90) {
-				rotation = 90;
-			}
-
 			break;
 
 		case NONE:
@@ -193,6 +192,10 @@ public class Bird {
 		
 		
 		boundingCircle.set(position.x + (diameter/2), position.y +  (diameter/2),  (diameter/2));
+		
+		boundingCircleArray[0].set(position.x + (diameter/2), position.y +  (diameter/2),  (diameter/2)-2);
+		boundingCircleArray[1].set(position.x + (diameter/2), position.y +  (diameter/2),  (diameter/2)-8);
+
 	}
 
 	private void setLevelAttributes() {
@@ -321,7 +324,12 @@ public class Bird {
 	}
 
 	public void drawCollisions(ShapeRenderer shapeRenderer) {
-		shapeRenderer.circle(boundingCircle.x, boundingCircle.y, boundingCircle.radius);	
+	//	shapeRenderer.circle(boundingCircle.x, boundingCircle.y, boundingCircle.radius);
+		
+		for(int i=0; i<3; i++) {
+			shapeRenderer.circle(boundingCircleArray[i].x, boundingCircleArray[i].y, boundingCircleArray[i].radius);
+		}
+
 	}
 	
 }

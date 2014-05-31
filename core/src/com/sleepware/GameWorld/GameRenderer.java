@@ -43,14 +43,11 @@ public class GameRenderer {
 
 	private SpriteBatch batcher;
 
-	private int midPointY;
-
 	// Game Objects
 	private Bird bird;
 	private ScrollHandler scroller;
 	private StaticImage farBackground;
 	private StaticImage background;
-	private StaticImage foreground;
 	private StaticBackgroundFruit staticBackgroundFruit;
 	private Hud hud;
 	private Title title;
@@ -79,8 +76,6 @@ public class GameRenderer {
 		this.gameWidth=gameWidth;
 		this.gameHeight=gameHeight;
 		myWorld = world;
-
-		midPointY = gameHeight/2;
 		
 		cam = new OrthographicCamera();
 		cam.setToOrtho(true, gameWidth, gameHeight);
@@ -102,7 +97,6 @@ public class GameRenderer {
 		scroller = myWorld.getScroller();
 		farBackground = myWorld.getFarBackground();
 		background = myWorld.getBackground();
-		foreground = myWorld.getForeground();
 		staticBackgroundFruit = myWorld.getYoghurt();
 		hud = myWorld.getHud();
 		title = myWorld.getTitle();
@@ -135,7 +129,7 @@ public class GameRenderer {
 		shapeRenderer.begin(ShapeType.Filled);
 
 		// Draw Background colour
-		shapeRenderer.setColor(0 / 255.0f, 242 / 255.0f, 0 / 255.0f, 1);
+		shapeRenderer.setColor(184 / 255.0f, 208 / 255.0f, 208 / 255.0f, 1);
 		shapeRenderer.rect(0, 0, gameWidth, gameHeight);
 
 		shapeRenderer.end();
